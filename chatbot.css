@@ -1,0 +1,13 @@
+.pcc-fab{position:fixed;right:20px;bottom:20px;z-index:900;background:#f4c430;color:#1b2a1f;border:0;border-radius:999px;padding:12px 20px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(9,68,38,.25)}
+.pcc-panel{position:fixed;right:20px;bottom:76px;z-index:901;width:380px;max-width:calc(100vw - 24px);height:540px;max-height:calc(100vh - 100px);background:#fff;border-radius:16px;box-shadow:0 10px 36px rgba(9,68,38,.3);display:none;flex-direction:column;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#0b3d25}
+.pcc-panel.open{display:flex}
+.pcc-head{background:#094426;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:8px}.pcc-head b{flex:1;font-size:15px}.pcc-head small{opacity:.85}
+.pcc-x{background:none;border:0;color:#fff;font-size:20px;cursor:pointer;line-height:1}
+.pcc-msgs{flex:1;overflow-y:auto;padding:12px 14px;background:#f3f6f0}
+.pcc-m{padding:9px 12px;border-radius:12px;margin:0 0 9px;max-width:92%;white-space:pre-wrap;font-size:14px;line-height:1.5;word-wrap:break-word}
+.pcc-bot{background:#fff;border:1px solid #e1e9df}.pcc-me{background:#094426;color:#fff;margin-left:auto}
+.pcc-chips{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px 0;background:#f3f6f0;max-height:96px;overflow-y:auto}
+.pcc-chip{border:1.5px solid #cfdcd2;background:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer;color:#0b3d25}.pcc-chip:hover{background:#e2ebe0}
+.pcc-form{display:flex;gap:8px;padding:10px 12px;background:#f3f6f0}.pcc-form input{flex:1;border:1.5px solid #cfdcd2;border-radius:10px;padding:9px 11px;font-size:14px;min-width:0}
+.pcc-form button{background:#f4c430;border:0;border-radius:10px;padding:0 16px;font-weight:700;cursor:pointer;color:#1b2a1f}
+.pcc-note{font-size:11.5px;color:#5e7266;padding:6px 14px 10px;background:#fff;border-top:1px solid #e1e9df;line-height:1.4}

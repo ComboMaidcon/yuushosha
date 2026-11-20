@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRECHECK - Nền tảng tiền kiểm rủi ro xuất khẩu thực phẩm</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">PRECHECK</div>
+            <nav class="nav-links">
+                <a href="#trang-chu" class="active">Trang chủ</a>
+                <a href="#giai-phap">Giải pháp</a>
+                <a href="#du-lieu">Dữ liệu</a>
+                <a href="#bang-gia">Bảng giá</a>
+                <a href="#tai-nguyen">Tài nguyên</a>
+                <a href="login.html" class="login-link" id="navLoginLink">Đăng nhập</a>
+            </nav>
+            <div class="nav-action">
+                <button class="btn-trial" id="trialBtn">Dùng thử miễn phí</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero Section -->
+    <main class="main-content">
+        <div class="hero-grid">
+            <div class="hero-left">
+                <h1 class="hero-title">Soát lỗi thật sâu –<br><span>Xuất khẩu bền lâu</span></h1>
+                <p class="hero-desc">Nền tảng tiền kiểm rủi ro cho SME xuất khẩu thực phẩm vào Hoa Kỳ (EU sẽ bổ sung sau).</p>
+                <div class="hero-buttons">
+                    <a href="dashboard.html" class="btn-primary" id="checkRiskBtn" style="text-decoration: none; display: inline-block;">Kiểm tra rủi ro ngay</a>
+                    <button class="btn-secondary" id="demoBtn">Xem demo</button>
+                </div>
+            </div>
+            
+            <div class="hero-right">
+                <div class="stats-card card-1">
+                    <div class="stat-number">299 dòng</div>
+                    <div class="stat-sub">Việt Nam 2025 · FDA Import Refusal (thực phẩm) · dữ liệu thật</div>
+                </div>
+                <div class="stats-card card-2">
+                    <div class="stat-number">1.283 dòng</div>
+                    <div class="stat-sub">Việt Nam 10/2021 đến 10/2026 · gần một nửa là thủy sản</div>
+                </div>
+                <div class="stats-card card-3">
+                    <div class="stat-number">233 nhóm sản phẩm</div>
+                    <div class="stat-sub">Có hàng Việt Nam bị FDA từ chối · 40 mã lỗi có hướng dẫn tiếng Việt</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow / Feature Tabs -->
+        <div class="workflow-section">
+            <div class="tab-pills">
+                <button class="pill-tab active" data-tab="1">Đối chiếu dữ liệu & quy định</button>
+                <button class="pill-tab" data-tab="2">Đánh giá rủi ro & mô phỏng thiệt hại</button>
+                <button class="pill-tab" data-tab="3">Hành động ngăn ngừa & khắc phục</button>
+            </div>
+
+            <div class="step-bar">
+                <div class="step-item" data-step="1">
+                    <span class="step-num">1.</span> Input
+                </div>
+                <div class="step-item" data-step="2">
+                    <span class="step-num">2.</span> Data Matching
+                </div>
+                <div class="step-item active" data-step="3">
+                    <span class="step-num">3.</span> Risk Score & Cost
+                </div>
+                <div class="step-item" data-step="4">
+                    <span class="step-num">4.</span> Corrective Action
+                </div>
+            </div>
+
+            <!-- Dynamic Content Container -->
+            <div class="step-content-box" id="stepContentBox">
+                <h3>Bước 3: Đánh giá Điểm số Rủi ro & Ước tính Chi phí</h3>
+                <p>Hệ thống tự động chấm điểm tuân thủ FDA/RASFF, mô phỏng thiệt hại tài chính tiềm ẩn nếu bị giữ hàng hoặc từ chối tại cảng đích.</p>
+            </div>
+
+            <div class="quick-links">
+                <span>Giá từ 350.000đ/hạng mục kiểm tra (demo)</span>
+                <span class="dot">·</span>
+                <a href="#" id="faq1">FAQ: Dữ liệu nào được dùng?</a>
+                <span class="dot">·</span>
+                <a href="#" id="faq2">Báo cáo có thay tư vấn pháp lý?</a>
+                <span class="dot">·</span>
+                <a href="#" id="faq3">Có hỗ trợ EU?</a>
+                <span class="dot">·</span>
+                <a href="#" id="consultBtn">Tư vấn miễn phí</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Chat Button -->
+    <button class="floating-chat" id="chatBtn">
+        Chat
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#">Giải pháp</a>
+                <span>·</span>
+                <a href="#">Bảng giá</a>
+                <span>·</span>
+                <a href="#">Tài nguyên</a>
+            </div>
+            <div class="copyright">© 2025 PRECHECK</div>
+        </div>
+    </footer>
+
+    <!-- Interactive Modal -->
+    <div class="modal" id="appModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 id="modalTitle">Thông báo</h2>
+            <div id="modalBody">Nội dung chi tiết...</div>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script src="engine.js"></script>
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html>

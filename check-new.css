@@ -1,0 +1,346 @@
+
+/* Stepper Progress Bar */
+.stepper-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 0;
+}
+
+.step-pill {
+    background-color: #dce3dd;
+    color: #7d8e84;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 28px;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.step-pill.active {
+    background-color: #0b4628;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(11, 70, 40, 0.2);
+}
+
+.step-line {
+    width: 36px;
+    height: 2px;
+    background-color: #d6dfd8;
+}
+
+/* Check New 2-Column Grid */
+.check-new-grid {
+    display: grid;
+    grid-template-columns: 1.75fr 0.95fr;
+    gap: 28px;
+    align-items: stretch;
+}
+
+/* Left White Card */
+.cn-left-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 34px 38px;
+    box-shadow: 0 2px 12px rgba(11, 61, 37, 0.04);
+    border: 1px solid rgba(11, 61, 37, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cn-form-upload-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 28px;
+}
+
+.cn-form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cn-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cn-field label {
+    font-size: 13.5px;
+    color: #5e7266;
+    font-weight: 500;
+}
+
+.cn-field input, .cn-field select {
+    background-color: #f3f5f2;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #0b3d25;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.cn-field input:focus, .cn-field select:focus {
+    background-color: #ffffff;
+    border-color: #0b4628;
+    box-shadow: 0 0 0 3px rgba(11, 70, 40, 0.08);
+}
+
+/* Dropzone */
+.cn-upload-col {
+    display: flex;
+    flex-direction: column;
+    padding-top: 22px;
+}
+
+.upload-dropzone {
+    background-color: #e4ede4;
+    border: 2px dashed transparent;
+    border-radius: 16px;
+    height: 225px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow-y: auto;
+}
+
+.upload-dropzone:hover, .upload-dropzone.dragover {
+    background-color: #d8e6d8;
+    border-color: #0b4628;
+}
+
+.dz-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0b3d25;
+    margin-bottom: 4px;
+}
+
+.dz-sub {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0b3d25;
+    margin-bottom: 6px;
+}
+
+.dz-hint {
+    font-size: 14px;
+    font-weight: 600;
+    color: #164f31;
+}
+
+.uploaded-file-list {
+    list-style: none;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.uploaded-file-item {
+    background: #ffffff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: #0b3d25;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.remove-file-btn {
+    color: #d94b4b;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+/* Action Row */
+.cn-action-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+}
+
+.btn-analyze-risk {
+    background-color: #f4c430;
+    color: #18291d;
+    border: none;
+    padding: 12px 48px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(244, 196, 48, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-analyze-risk:hover {
+    background-color: #e3b320;
+    transform: translateY(-2px);
+}
+
+/* Right Dark Green Card */
+.cn-right-card {
+    background-color: #0b4628;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 20px rgba(11, 70, 40, 0.16);
+}
+
+.cn-right-title {
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.cn-right-desc {
+    font-size: 12.5px;
+    color: #a8c7b6;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.cn-right-desc.unlocked {
+    color: #f4c430;
+    font-weight: 600;
+}
+
+.check-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.check-option-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    user-select: none;
+}
+
+.check-option-item:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.check-option-item.checked {
+    background-color: rgba(244, 196, 48, 0.2);
+    border: 1px solid rgba(244, 196, 48, 0.6);
+}
+
+.check-option-item.disabled-item {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.check-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.audit-checkbox {
+    width: 17px;
+    height: 17px;
+    accent-color: #f4c430;
+    cursor: pointer;
+}
+
+.item-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.item-price {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #d0e3d8;
+}
+
+.check-option-item.checked .item-price {
+    color: #f4c430;
+}
+
+.cn-demo-note {
+    font-size: 14px;
+    color: #d6e6dd;
+    margin-top: 8px;
+}
+
+/* Total Payment Summary Box */
+.payment-summary-box {
+    background-color: rgba(6, 40, 24, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 24px;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    color: #c2d8cc;
+}
+
+.payment-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin: 12px 0;
+}
+
+.payment-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-total-row span:first-child {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.total-amount {
+    font-size: 22px;
+    font-weight: 800;
+    color: #f4c430;
+}
+
+@media (max-width: 1050px) {
+    .check-new-grid {
+        grid-template-columns: 1fr;
+    }
+    .cn-form-upload-split {
+        grid-template-columns: 1fr;
+    }
+}

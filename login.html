@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRECHECK - Đăng nhập / Đăng ký</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Header Title -->
+        <div class="auth-header-top">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 id="authMainTitle">Bắt đầu với PRECHECK</h1>
+                    <p id="authSubTitle">Thiết lập hồ sơ doanh nghiệp trong vài phút</p>
+                </div>
+                <a href="index.html" class="back-home-link">← Trang chủ</a>
+            </div>
+        </div>
+
+        <!-- Auth Card Box -->
+        <div class="auth-card">
+            <!-- Switch Tabs: Đăng ký / Đăng nhập -->
+            <div class="auth-tabs">
+                <button type="button" class="tab-btn active" id="tabRegister">Đăng ký</button>
+                <button type="button" class="tab-btn" id="tabLogin">Đăng nhập</button>
+            </div>
+
+            <!-- Google Login Option -->
+            <div class="google-login-row">
+                <button type="button" class="btn-google" id="googleBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.2v3.15C3.18 21.32 7.23 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.2C.44 8.12 0 9.87 0 11.7s.44 3.58 1.2 5.12l4.08-2.55z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.68 1.2 6.58l4.08 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    Tiếp tục với Google (demo)
+                </button>
+            </div>
+
+            <!-- Alert Message Box -->
+            <div id="authMessage" class="auth-message" style="display: none;"></div>
+
+            <!-- Form Fields -->
+            <form id="authForm">
+                <!-- REGISTER FIELDS -->
+                <div class="form-grid" id="registerFields">
+                    <div class="form-group">
+                        <label for="regCompanyName">Tên doanh nghiệp <span class="req">*</span></label>
+                        <input type="text" placeholder="VD: Công ty TNHH Thực phẩm Xanh" id="regCompanyName">
+                    </div>
+                    <div class="form-group">
+                        <label for="regTaxCode">Mã số thuế <span class="req">*</span></label>
+                        <input type="text" placeholder="VD: 0101234567" id="regTaxCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email doanh nghiệp <span class="req">*</span></label>
+                        <input type="email" placeholder="name@company.com" id="regEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Mật khẩu <span class="req">*</span></label>
+                        <input type="password" placeholder="Tối thiểu 6 ký tự" id="regPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="regSmeType">Loại hình SME <span class="req">*</span></label>
+                        <select id="regSmeType">
+                            <option value="" disabled selected>Chọn loại hình</option>
+                            <option value="Siêu nhỏ (< 10 nhân sự)">Siêu nhỏ (&lt; 10 nhân sự)</option>
+                            <option value="Nhỏ (10 - 50 nhân sự)">Nhỏ (10 - 50 nhân sự)</option>
+                            <option value="Vừa (50 - 200 nhân sự)">Vừa (50 - 200 nhân sự)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="regIndustry">Ngành hàng <span class="req">*</span></label>
+                        <select id="regIndustry">
+                            <option value="" disabled selected>Chọn ngành hàng</option>
+                            <option value="Thủy sản đông lạnh">Thủy sản đông lạnh</option>
+                            <option value="Nông sản & Trái cây sấy">Nông sản & Trái cây sấy</option>
+                            <option value="Hạt điều chế biến">Hạt điều chế biến</option>
+                            <option value="Thực phẩm chế biến khô">Thực phẩm chế biến khô</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- LOGIN FIELDS -->
+                <div class="form-grid-single" id="loginFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="loginIdentifier">Email hoặc Mã số thuế <span class="req">*</span></label>
+                        <input type="text" placeholder="Nhập email hoặc mã số thuế đã đăng ký" id="loginIdentifier">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Mật khẩu <span class="req">*</span></label>
+                        <input type="password" placeholder="Nhập mật khẩu" id="loginPassword">
+                    </div>
+                    <div class="demo-account-hint">
+                        Tài khoản dùng thử nhanh: <strong>demo@precheck.vn</strong> / <strong>123456</strong>
+                    </div>
+                </div>
+
+                <!-- Terms & Submit -->
+                <div class="auth-footer-action">
+                    <label class="checkbox-label" id="termsWrap">
+                        <input type="checkbox" id="termsCheck" checked>
+                        <span>Tôi đồng ý điều khoản dịch vụ</span>
+                    </label>
+                    <div id="forgotWrap" style="display: none;">
+                        <a href="#" id="forgotPasswordLink" class="forgot-link">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtn">Bắt đầu kiểm tra</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

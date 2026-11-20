@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRECHECK - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="overview.css">
+    <link rel="stylesheet" href="check-new.css">
+    <link rel="stylesheet" href="report.css">
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="index.html" class="sidebar-logo">PRECHECK</a>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-tab="overview" data-menu="Tổng quan">Tổng quan</a>
+                <a href="#" class="nav-item" data-tab="check-new" data-menu="Kiểm tra mới">Kiểm tra mới</a>
+                <a href="#" class="nav-item" data-tab="my-reports" data-menu="Báo cáo của tôi">Báo cáo của tôi</a>
+                <a href="#" class="nav-item" data-tab="risk-alert" data-menu="Risk Alert">Risk Alert</a>
+                <a href="#" class="nav-item" data-tab="smart-checklist" data-menu="Smart Checklist">Smart Checklist</a>
+                <a href="#" class="nav-item" data-tab="compliance" data-menu="Compliance Tracker">Compliance Tracker</a>
+                <a href="#" class="nav-item" data-tab="cost" data-menu="Ước tính chi phí">Ước tính chi phí</a>
+                <a href="#" class="nav-item" data-tab="regulations" data-menu="Thư viện quy định">Thư viện quy định</a>
+                <a href="#" class="nav-item" data-tab="services" data-menu="Gói dịch vụ">Gói dịch vụ</a>
+                <a href="#" class="nav-item" data-tab="support" data-menu="Hỗ trợ">Hỗ trợ</a>
+            </nav>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="dashboard-main">
+            <!-- Top Header -->
+            <header class="dash-header">
+                <div class="dash-title-group" id="dashTitleGroup">
+                    <h1>Dashboard Tổng quan</h1>
+                    <p>Công ty Hải Nam · PC-2025-0148</p>
+                </div>
+                <div id="userAuthArea" style="display: flex; align-items: center; gap: 12px;">
+                    <button class="btn-dash-login" id="dashLoginBtn">Đăng nhập</button>
+                </div>
+            </header>
+
+            <!-- TAB 1: OVERVIEW (Tổng quan) -->
+            <div class="tab-pane active" id="tab-overview">
+                <!-- Top 4 Stats Cards -->
+                <div class="overview-stats-grid">
+                    <div class="ov-card">
+                        <div class="ov-number" id="ovReports">24</div>
+                        <div class="ov-sub" id="ovReportsSub">Báo cáo đã tạo · minh họa</div>
+                    </div>
+                    <div class="ov-card">
+                        <div class="ov-number">7</div>
+                        <div class="ov-sub">Cảnh báo mới · minh họa</div>
+                    </div>
+                    <div class="ov-card">
+                        <div class="ov-number highlight-red" id="ovScore">72/100</div>
+                        <div class="ov-sub" id="ovScoreSub">Rủi ro trung bình · minh họa</div>
+                    </div>
+                    <div class="ov-card">
+                        <div class="ov-number" id="ovCheck">68%</div>
+                        <div class="ov-sub" id="ovCheckSub">Checklist hoàn thành · minh họa</div>
+                    </div>
+                </div>
+
+                <!-- Middle Section: Chart & Products Deadline -->
+                <div class="overview-content-grid">
+                    <!-- Left: Chart -->
+                    <div class="chart-card">
+                        <h3>Điểm rủi ro theo thời gian</h3>
+                        <p class="demo-cap" id="chartCap">Dữ liệu minh họa. Tạo từ 2 báo cáo trở lên để xem điểm thật.</p>
+                        <div class="chart-container" id="riskChart">
+                            <svg viewBox="0 0 600 240" class="risk-svg-chart">
+                                <line x1="40" y1="30" x2="580" y2="30" stroke="#e4ede2" stroke-width="1" />
+                                <line x1="40" y1="80" x2="580" y2="80" stroke="#e4ede2" stroke-width="1" />
+                                <line x1="40" y1="130" x2="580" y2="130" stroke="#e4ede2" stroke-width="1" />
+                                <line x1="40" y1="180" x2="580" y2="180" stroke="#e4ede2" stroke-width="1" />
+                                <text x="20" y="34" font-size="12" fill="#7a9082">80</text>
+                                <text x="20" y="84" font-size="12" fill="#7a9082">60</text>
+                                <text x="20" y="134" font-size="12" fill="#7a9082">40</text>
+                                <text x="20" y="184" font-size="12" fill="#7a9082">20</text>
+                                <text x="25" y="224" font-size="12" fill="#7a9082">0</text>
+                                <line x1="40" y1="210" x2="580" y2="210" stroke="#c0d4c8" stroke-width="1.5" />
+                                <text x="90" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T1</text>
+                                <text x="188" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T2</text>
+                                <text x="286" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T3</text>
+                                <text x="384" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T4</text>
+                                <text x="482" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T5</text>
+                                <text x="555" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T6</text>
+                                <polyline fill="none" stroke="#0b3d25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                                    points="90,140 188,128 286,108 384,90 482,102 555,90" />
+                                <circle cx="90" cy="140" r="4.5" fill="#0b3d25" />
+                                <circle cx="188" cy="128" r="4.5" fill="#0b3d25" />
+                                <circle cx="286" cy="108" r="4.5" fill="#0b3d25" />
+                                <circle cx="384" cy="90" r="4.5" fill="#0b3d25" />
+                                <circle cx="482" cy="102" r="4.5" fill="#0b3d25" />
+                                <circle cx="555" cy="90" r="4.5" fill="#0b3d25" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Right: Products & Deadline -->
+                    <div class="products-deadline-card">
+                        <h3>Sản phẩm & hạn xử lý</h3>
+                        <div class="prod-rows" id="prodRows">
+                            <div class="prod-item">
+                                <span class="prod-name">Tôm đông lạnh · Hoa Kỳ</span>
+                                <span class="badge-mini badge-high">CAO</span>
+                            </div>
+                            <div class="prod-item">
+                                <span class="prod-name">Cá ngừ đóng hộp · EU</span>
+                                <span class="badge-mini badge-med">TRUNG BÌNH</span>
+                            </div>
+                            <div class="prod-item">
+                                <span class="prod-name">Xoài sấy · EU</span>
+                                <span class="badge-mini badge-low">THẤP</span>
+                            </div>
+                        </div>
+                        <div class="deadline-divider"></div>
+                        <div class="deadline-rows" id="deadlineRows">
+                            <div class="deadline-item">
+                                <span class="deadline-date">28/06</span>
+                                <span class="deadline-text">Rà soát nhãn</span>
+                            </div>
+                            <div class="deadline-item">
+                                <span class="deadline-date">30/06</span>
+                                <span class="deadline-text">Hoàn tất Prior Notice</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: KIỂM TRA MỚI (NEW CHECK - INPUT) -->
+            <div class="tab-pane" id="tab-check-new" style="display: none;">
+                <!-- Stepper Progress Bar -->
+                <div class="stepper-wrapper">
+                    <div class="step-pill active" id="step-pill-1">1 &nbsp; INPUT</div>
+                    <div class="step-line"></div>
+                    <div class="step-pill" id="step-pill-2">2 &nbsp; DATA MATCHING</div>
+                    <div class="step-line"></div>
+                    <div class="step-pill" id="step-pill-3">3 &nbsp; RISK SCORE</div>
+                    <div class="step-line"></div>
+                    <div class="step-pill" id="step-pill-4">4 &nbsp; ACTION GUIDE</div>
+                </div>
+
+                <!-- Two Column Layout -->
+                <div class="check-new-grid">
+                    <!-- Left White Card: Form & File Upload -->
+                    <div class="cn-left-card">
+                        <div class="cn-form-upload-split">
+                            <!-- Form Inputs -->
+                            <div class="cn-form-col">
+                                <div class="cn-field">
+                                    <label>Tên sản phẩm</label>
+                                    <input type="text" id="cnProductName" placeholder="VD: Tôm sú đông lạnh IQF">
+                                    <div class="fda-suggest" id="fdaSuggest" aria-live="polite"></div>
+                                </div>
+                                <div class="cn-field">
+                                    <label>Thành phần</label>
+                                    <input type="text" id="cnIngredients" placeholder="VD: Tôm sú (98%), muối, chất ổn định E451">
+                                </div>
+                                <div class="cn-field">
+                                    <label>Mã HS</label>
+                                    <input type="text" id="cnHsCode" placeholder="VD: 0306.17.11">
+                                </div>
+                                <div class="cn-field">
+                                    <label>Thị trường: Hoa Kỳ / EU</label>
+                                    <select id="cnMarket">
+                                        <option value="" disabled selected>Chọn thị trường xuất khẩu</option>
+                                        <option value="Hoa Kỳ (FDA)">Hoa Kỳ (FDA)</option>
+                                        <option value="Liên minh Châu Âu (EU / RASFF)" disabled>Liên minh Châu Âu (sắp có)</option>
+                                        <option value="Cả hai (Hoa Kỳ & EU)" disabled>Cả hai (sắp có)</option>
+                                    </select>
+                                </div>
+                                <div class="cn-field">
+                                    <label>Nhà máy / cơ sở</label>
+                                    <input type="text" id="cnFactory" placeholder="VD: Nhà máy Chế biến Thủy sản Hải Nam">
+                                </div>
+                            </div>
+
+                            <!-- File Upload Dropzone -->
+                            <div class="cn-upload-col">
+                                <div class="upload-dropzone" id="uploadDropzone">
+                                    <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx" style="display: none;">
+                                    <div class="dropzone-content" id="dropzoneContent">
+                                        <p class="dz-title">Tải hồ sơ</p>
+                                        <p class="dz-sub">Nhãn · COA · Giấy phép</p>
+                                        <p class="dz-hint">Kéo thả hoặc chọn tệp</p>
+                                    </div>
+                                    <ul class="uploaded-file-list" id="uploadedFileList"></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="cn-action-row">
+                            <button type="button" class="btn-analyze-risk" id="btnAnalyzeRisk">Phân tích rủi ro</button>
+                        </div>
+                    </div>
+
+                    <!-- Right Dark Green Card: Check Items & Total Payment -->
+                    <div class="cn-right-card">
+                        <div>
+                            <h3 class="cn-right-title">Chọn mục kiểm tra</h3>
+                            <p class="cn-right-desc" id="selectionStatusNote">Vui lòng nhập dữ liệu & tải hồ sơ để mở khóa lựa chọn</p>
+
+                            <div class="check-items-list" id="checkItemsList">
+                                <label class="check-option-item">
+                                    <div class="check-left">
+                                        <input type="checkbox" class="audit-checkbox" value="Nhãn sản phẩm" data-price="350000">
+                                        <span class="custom-bullet"></span>
+                                        <span class="item-name">Nhãn sản phẩm</span>
+                                    </div>
+                                    <span class="item-price">350.000đ</span>
+                                </label>
+
+                                <label class="check-option-item">
+                                    <div class="check-left">
+                                        <input type="checkbox" class="audit-checkbox" value="COA" data-price="500000">
+                                        <span class="custom-bullet"></span>
+                                        <span class="item-name">COA</span>
+                                    </div>
+                                    <span class="item-price">500.000đ</span>
+                                </label>
+
+                                <label class="check-option-item">
+                                    <div class="check-left">
+                                        <input type="checkbox" class="audit-checkbox" value="Giấy phép" data-price="400000">
+                                        <span class="custom-bullet"></span>
+                                        <span class="item-name">Giấy phép</span>
+                                    </div>
+                                    <span class="item-price">400.000đ</span>
+                                </label>
+
+                                <label class="check-option-item">
+                                    <div class="check-left">
+                                        <input type="checkbox" class="audit-checkbox" value="Nhà máy" data-price="650000">
+                                        <span class="custom-bullet"></span>
+                                        <span class="item-name">Nhà máy</span>
+                                    </div>
+                                    <span class="item-price">650.000đ</span>
+                                </label>
+                            </div>
+
+                            <p class="cn-demo-note">Dữ liệu minh họa</p>
+                        </div>
+
+                        <!-- Total Payment Box -->
+                        <div class="payment-summary-box">
+                            <div class="payment-row">
+                                <span>Số mục đã chọn:</span>
+                                <strong id="selectedCountText">0 mục</strong>
+                            </div>
+                            <div class="payment-divider"></div>
+                            <div class="payment-total-row">
+                                <span>Tổng tiền thanh toán</span>
+                                <span class="total-amount" id="totalPaymentAmount">0 đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: RISK ALERT (Cảnh báo rủi ro) -->
+            <div class="tab-pane" id="tab-risk-alert" style="display: none;">
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <div class="filter-select-wrap">
+                            <select id="filterMarket" class="filter-pill">
+                                <option value="all">Thị trường ▾</option>
+                                <option value="FDA">Hoa Kỳ (FDA)</option>
+                                <option value="RASFF">Châu Âu (RASFF)</option>
+                            </select>
+                        </div>
+                        <div class="filter-select-wrap">
+                            <select id="filterCategory" class="filter-pill">
+                                <option value="all">Nhóm hàng ▾</option>
+                                <option value="thuy-san">Thủy sản đông lạnh</option>
+                                <option value="hat-dieu">Hạt điều chế biến</option>
+                                <option value="trai-cay">Trái cây sấy</option>
+                            </select>
+                        </div>
+                        <div class="filter-select-wrap">
+                            <select id="filterSeverity" class="filter-pill">
+                                <option value="all">Mức độ ▾</option>
+                                <option value="CAO">CAO</option>
+                                <option value="TRUNG BÌNH">TRUNG BÌNH</option>
+                                <option value="THẤP">THẤP</option>
+                            </select>
+                        </div>
+                        <div class="filter-select-wrap">
+                            <select id="filterTime" class="filter-pill">
+                                <option value="all">Thời gian ▾</option>
+                                <option value="2025-06">Tháng 06/2025</option>
+                                <option value="recent">7 ngày gần nhất</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-notify" id="notifyBtn">Đặt thông báo email / Zalo</button>
+                </div>
+
+                <!-- Alert List -->
+                <div class="alert-list" id="alertList">
+                    <div class="alert-card" data-market="FDA" data-category="thuy-san" data-severity="CAO">
+                        <div class="badge-col">
+                            <span class="badge badge-high">CAO</span>
+                        </div>
+                        <div class="info-col">
+                            <h3>FDA · Thủy sản đông lạnh</h3>
+                            <p class="alert-reason">Nguy cơ giữ hàng để kiểm tra</p>
+                            <p class="alert-meta">Minh họa · 18/06/2025</p>
+                        </div>
+                    </div>
+                    <div class="alert-card" data-market="RASFF" data-category="hat-dieu" data-severity="TRUNG BÌNH">
+                        <div class="badge-col">
+                            <span class="badge badge-medium">TRUNG BÌNH</span>
+                        </div>
+                        <div class="info-col">
+                            <h3>RASFF · Hạt điều chế biến</h3>
+                            <p class="alert-reason">Tăng kiểm soát dư lượng</p>
+                            <p class="alert-meta">Minh họa · 15/06/2025</p>
+                        </div>
+                    </div>
+                    <div class="alert-card" data-market="FDA" data-category="trai-cay" data-severity="THẤP">
+                        <div class="badge-col">
+                            <span class="badge badge-low">THẤP</span>
+                        </div>
+                        <div class="info-col">
+                            <h3>FDA · Trái cây sấy</h3>
+                            <p class="alert-reason">Cập nhật yêu cầu ghi nhãn</p>
+                            <p class="alert-meta">Minh họa · 11/06/2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab-matching" style="display: none;"></div>
+            <div class="tab-pane" id="tab-report" style="display: none;"></div>
+            <div class="tab-pane" id="tab-actions" style="display: none;"></div>
+            <div class="tab-pane" id="tab-my-reports" style="display: none;"></div>
+
+            <!-- TAB 4: OTHER PAGES PLACEHOLDER -->
+            <div class="tab-pane" id="tab-placeholder" style="display: none;">
+                <div style="background: white; padding: 40px; border-radius: 16px; text-align: center;">
+                    <h2 id="placeholderTitle" style="color: #0b3d25; margin-bottom: 10px;">Tính năng đang phát triển</h2>
+                    <p style="color: #5e7266;">Nội dung chi tiết cho mục này sẽ được cập nhật trong phiên bản tiếp theo.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="dashModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeDashModal">&times;</span>
+            <h2 id="dashModalTitle">Thông báo</h2>
+            <div id="dashModalBody"></div>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script src="engine.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html>
