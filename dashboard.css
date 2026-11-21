@@ -362,3 +362,27 @@ body {
 .btn-logout:hover {
     background: #fad5d5;
 }
+
+/* V4 mobile: prevent the four-step workflow and cards from causing horizontal scroll */
+@media(max-width:650px){
+ .dashboard-layout,.dashboard-main,.sidebar,.tab-pane{width:100%;min-width:0;max-width:100%}
+ .dashboard-main{padding:21px 16px 48px}
+ .sidebar{padding:18px 16px}
+ .sidebar-logo{margin-bottom:19px}
+ .sidebar-nav{column-gap:12px;row-gap:12px}
+ .nav-item{font-size:12px}
+ .dash-header{flex-direction:column;gap:13px;margin-bottom:21px}
+ .dash-title-group h1{font-size:26px}
+ #userAuthArea{flex-wrap:wrap}
+ .user-pill{max-width:100%;font-size:12px}
+ .check-new-grid{gap:14px;min-width:0}
+ .cn-left-card,.cn-right-card{padding:20px;min-width:0}
+ .cn-form-upload-split{gap:14px}
+ .stepper-wrapper{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:100%;margin:15px 0 18px}
+ .step-line{display:none}
+ .step-pill{white-space:normal;font-size:11px;text-align:center;padding:9px 5px;max-width:100%}
+ .rp-grid{min-width:0;max-width:100%}
+ .pane-card{overflow-x:auto}
+ .payment-total-row{flex-wrap:wrap;gap:8px}
+ .alert-list{min-width:0}
+}

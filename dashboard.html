@@ -35,7 +35,7 @@
             <header class="dash-header">
                 <div class="dash-title-group" id="dashTitleGroup">
                     <h1>Dashboard Tổng quan</h1>
-                    <p>Công ty Hải Nam · PC-2025-0148</p>
+                    <p>Bản demo sinh viên · lưu dữ liệu trong trình duyệt, không gửi đến máy chủ</p>
                 </div>
                 <div id="userAuthArea" style="display: flex; align-items: center; gap: 12px;">
                     <button class="btn-dash-login" id="dashLoginBtn">Đăng nhập</button>
@@ -51,12 +51,12 @@
                         <div class="ov-sub" id="ovReportsSub">Báo cáo đã tạo · minh họa</div>
                     </div>
                     <div class="ov-card">
-                        <div class="ov-number">7</div>
-                        <div class="ov-sub">Cảnh báo mới · minh họa</div>
+                        <div class="ov-number">3</div>
+                        <div class="ov-sub">Tình huống cảnh báo minh họa · không phải tin mới</div>
                     </div>
                     <div class="ov-card">
                         <div class="ov-number highlight-red" id="ovScore">72/100</div>
-                        <div class="ov-sub" id="ovScoreSub">Rủi ro trung bình · minh họa</div>
+                        <div class="ov-sub" id="ovScoreSub">Chỉ số ưu tiên rà soát · minh họa</div>
                     </div>
                     <div class="ov-card">
                         <div class="ov-number" id="ovCheck">68%</div>
@@ -68,8 +68,8 @@
                 <div class="overview-content-grid">
                     <!-- Left: Chart -->
                     <div class="chart-card">
-                        <h3>Điểm rủi ro theo thời gian</h3>
-                        <p class="demo-cap" id="chartCap">Dữ liệu minh họa. Tạo từ 2 báo cáo trở lên để xem điểm thật.</p>
+                        <h3>Chỉ số ưu tiên rà soát theo thời gian</h3>
+                        <p class="demo-cap" id="chartCap">Biểu đồ minh họa, không phải xác suất từ chối hay kết luận đạt chất lượng.</p>
                         <div class="chart-container" id="riskChart">
                             <svg viewBox="0 0 600 240" class="risk-svg-chart">
                                 <line x1="40" y1="30" x2="580" y2="30" stroke="#e4ede2" stroke-width="1" />
@@ -158,11 +158,11 @@
                                     <div class="fda-suggest" id="fdaSuggest" aria-live="polite"></div>
                                 </div>
                                 <div class="cn-field">
-                                    <label>Thành phần</label>
+                                    <label>Thành phần (nếu có)</label>
                                     <input type="text" id="cnIngredients" placeholder="VD: Tôm sú (98%), muối, chất ổn định E451">
                                 </div>
                                 <div class="cn-field">
-                                    <label>Mã HS</label>
+                                    <label>Mã HS (nếu có)</label>
                                     <input type="text" id="cnHsCode" placeholder="VD: 0306.17.11">
                                 </div>
                                 <div class="cn-field">
@@ -186,8 +186,8 @@
                                     <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx" style="display: none;">
                                     <div class="dropzone-content" id="dropzoneContent">
                                         <p class="dz-title">Tải hồ sơ</p>
-                                        <p class="dz-sub">Nhãn · COA · Giấy phép</p>
-                                        <p class="dz-hint">Kéo thả hoặc chọn tệp</p>
+                                        <p class="dz-sub">Có thể bổ sung nhãn / COA / chứng từ sau</p>
+                                        <p class="dz-hint">Kéo thả hoặc chọn tệp (không bắt buộc)</p>
                                     </div>
                                     <ul class="uploaded-file-list" id="uploadedFileList"></ul>
                                 </div>
@@ -200,64 +200,39 @@
                         </div>
                     </div>
 
-                    <!-- Right Dark Green Card: Check Items & Total Payment -->
+                    <!-- Inclusive scope + new subscription/report pricing -->
                     <div class="cn-right-card">
                         <div>
-                            <h3 class="cn-right-title">Chọn mục kiểm tra</h3>
-                            <p class="cn-right-desc" id="selectionStatusNote">Vui lòng nhập dữ liệu & tải hồ sơ để mở khóa lựa chọn</p>
-
-                            <div class="check-items-list" id="checkItemsList">
-                                <label class="check-option-item">
-                                    <div class="check-left">
-                                        <input type="checkbox" class="audit-checkbox" value="Nhãn sản phẩm" data-price="350000">
-                                        <span class="custom-bullet"></span>
-                                        <span class="item-name">Nhãn sản phẩm</span>
-                                    </div>
-                                    <span class="item-price">350.000đ</span>
+                            <div class="pricing-chip">GIÁ THỬ NGHIỆM · V3</div>
+                            <h3 class="cn-right-title">Chọn hình thức sử dụng</h3>
+                            <p class="cn-right-desc" id="selectionStatusNote">Một báo cáo kiểm tra tất cả nội dung phù hợp, không tính tiền từng hạng mục.</p>
+                            <div class="billing-options" id="billingOptions">
+                                <label class="billing-choice selected" data-plan="single">
+                                    <input type="radio" name="billingPlan" value="single" checked>
+                                    <span><strong>199.000đ / báo cáo</strong><small>Mua theo lượt · mỗi sản phẩm × thị trường</small></span>
                                 </label>
-
-                                <label class="check-option-item">
-                                    <div class="check-left">
-                                        <input type="checkbox" class="audit-checkbox" value="COA" data-price="500000">
-                                        <span class="custom-bullet"></span>
-                                        <span class="item-name">COA</span>
-                                    </div>
-                                    <span class="item-price">500.000đ</span>
-                                </label>
-
-                                <label class="check-option-item">
-                                    <div class="check-left">
-                                        <input type="checkbox" class="audit-checkbox" value="Giấy phép" data-price="400000">
-                                        <span class="custom-bullet"></span>
-                                        <span class="item-name">Giấy phép</span>
-                                    </div>
-                                    <span class="item-price">400.000đ</span>
-                                </label>
-
-                                <label class="check-option-item">
-                                    <div class="check-left">
-                                        <input type="checkbox" class="audit-checkbox" value="Nhà máy" data-price="650000">
-                                        <span class="custom-bullet"></span>
-                                        <span class="item-name">Nhà máy</span>
-                                    </div>
-                                    <span class="item-price">650.000đ</span>
+                                <label class="billing-choice" data-plan="sme">
+                                    <input type="radio" name="billingPlan" value="sme">
+                                    <span><strong>499.000đ / tháng</strong><small>3 báo cáo/tháng · bình quân 166.333đ/lượt nếu dùng đủ</small></span>
                                 </label>
                             </div>
-
-                            <p class="cn-demo-note">Dữ liệu minh họa</p>
+                            <div class="scope-panel">
+                                <strong>Bao gồm trong mỗi báo cáo</strong>
+                                <ul>
+                                  <li>Đối chiếu dữ liệu lịch sử FDA với nhóm hàng</li>
+                                  <li>Checklist nhãn, COA/kiểm nghiệm, thủ tục và cơ sở</li>
+                                  <li>Gợi ý khắc phục kèm mã và căn cứ tham khảo</li>
+                                  <li>Mô phỏng chi phí lưu container theo biểu phí có nguồn</li>
+                                </ul>
+                            </div>
+                            <p class="cn-demo-note">Không đánh giá chứng từ bằng nội dung tệp: chỉ ghi nhận tên tệp đã tải. Không bao gồm kiểm nghiệm hoặc chuyên gia duyệt từng lô.</p>
                         </div>
-
-                        <!-- Total Payment Box -->
                         <div class="payment-summary-box">
-                            <div class="payment-row">
-                                <span>Số mục đã chọn:</span>
-                                <strong id="selectedCountText">0 mục</strong>
-                            </div>
+                            <div class="payment-row"><span>Hình thức chọn</span><strong id="planDescription">Theo lượt</strong></div>
+                            <div class="payment-row quota-row"><span>Hạn mức thuê bao</span><strong id="quotaStatus">Không giới hạn lượt lẻ trong demo</strong></div>
                             <div class="payment-divider"></div>
-                            <div class="payment-total-row">
-                                <span>Tổng tiền thanh toán</span>
-                                <span class="total-amount" id="totalPaymentAmount">0 đ</span>
-                            </div>
+                            <div class="payment-total-row"><span>Giá tham khảo</span><span class="total-amount" id="totalPaymentAmount">199.000đ</span></div>
+                            <p class="tiny-legal">Bản demo không thu tiền, không thanh toán, không phát hành hóa đơn.</p>
                         </div>
                     </div>
                 </div>
@@ -265,6 +240,7 @@
 
             <!-- TAB 3: RISK ALERT (Cảnh báo rủi ro) -->
             <div class="tab-pane" id="tab-risk-alert" style="display: none;">
+              <p class="demo-cap" style="margin-bottom:18px">Thẻ dưới đây là tình huống minh họa, KHÔNG PHẢI cảnh báo FDA/RASFF mới. Dữ liệu RASFF chưa tích hợp live.</p>
                 <!-- Filter Bar -->
                 <div class="filter-bar">
                     <div class="filter-group">
@@ -295,7 +271,7 @@
                             <select id="filterTime" class="filter-pill">
                                 <option value="all">Thời gian ▾</option>
                                 <option value="2025-06">Tháng 06/2025</option>
-                                <option value="recent">7 ngày gần nhất</option>
+                                <option value="recent">7 ngày gần nhất (demo không có cảnh báo mới)</option>
                             </select>
                         </div>
                     </div>
@@ -336,6 +312,7 @@
                         </div>
                     </div>
                 </div>
+              <p class="demo-cap" id="alertEmpty" style="display:none;padding:14px">Không có cảnh báo minh họa phù hợp với bộ lọc.</p>
             </div>
 
             <div class="tab-pane" id="tab-matching" style="display: none;"></div>
@@ -343,7 +320,7 @@
             <div class="tab-pane" id="tab-actions" style="display: none;"></div>
             <div class="tab-pane" id="tab-my-reports" style="display: none;"></div>
 
-            <!-- TAB 4: OTHER PAGES PLACEHOLDER -->
+            <!-- TAB 4: EXTRA FEATURES -->
             <div class="tab-pane" id="tab-placeholder" style="display: none;">
                 <div style="background: white; padding: 40px; border-radius: 16px; text-align: center;">
                     <h2 id="placeholderTitle" style="color: #0b3d25; margin-bottom: 10px;">Tính năng đang phát triển</h2>
@@ -365,6 +342,7 @@
     <script src="common.js"></script>
     <script src="data.js"></script>
     <script src="engine.js"></script>
+    <script src="pricing.js"></script>
     <script src="dashboard.js"></script>
     <script src="chatbot.js"></script>
 </body>

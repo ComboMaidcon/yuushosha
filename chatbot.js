@@ -13,9 +13,9 @@
         fsvp: 'FSVP là chương trình xác minh nhà cung cấp nước ngoài, nghĩa vụ chính thuộc nhà nhập khẩu Mỹ. Bạn nên chuẩn bị sẵn hồ sơ: kế hoạch an toàn thực phẩm, kết quả kiểm nghiệm, chứng nhận cơ sở. Thủy sản theo HACCP có quy định riêng, hãy xác nhận với nhà nhập khẩu.',
         fce: 'Với thực phẩm đóng kín, nếu pH > 4,6 và aw > 0,85 thì thường thuộc nhóm đồ hộp axit thấp, cần đăng ký cơ sở (FCE) và nộp quy trình xử lý nhiệt (SID) cho từng sản phẩm trước khi xuất. Hãy xác nhận với chuyên gia.',
         source: 'Dữ liệu là FDA Import Refusal Report (lô hàng thực phẩm bị FDA từ chối, ' + E.meta.period + ') cùng bảng mã lý do của FDA. Import Alerts, RASFF và EU chưa được tích hợp.',
-        update: 'FDA cập nhật dữ liệu từ chối nhập khẩu hằng tuần. Bản demo dùng bản chụp đến ' + E.meta.updated + ' và chưa tự cập nhật.',
+        update: 'FDA công bố báo cáo từ chối nhập khẩu theo kỳ và cập nhật hàng tháng. Bản demo dùng bộ dữ liệu nhóm lưu đến ' + E.meta.updated + ' và chưa tự cập nhật.',
         eu: 'Chưa hỗ trợ. Bản demo chỉ có thị trường Hoa Kỳ (FDA). EU nằm trong kế hoạch phát triển.',
-        price: 'Bản demo tính phí theo hạng mục kiểm tra bạn tích chọn: Nhãn sản phẩm 350.000đ, COA 500.000đ, Giấy phép 400.000đ, Nhà máy 650.000đ. Đây chỉ là minh họa, không thu phí thật.',
+        price: 'Giá dự kiến: 199.000đ/báo cáo theo 1 sản phẩm × 1 thị trường, hoặc 499.000đ/tháng cho tối đa 3 báo cáo (166.333đ/báo cáo nếu dùng đủ). Một báo cáo bao gồm nhãn, COA, giấy phép và nhà máy nếu phù hợp, không cộng phí theo mục. Các giai đoạn giảm giá chưa áp dụng. Demo không thanh toán thật.',
         score: 'Điểm rà soát = tín hiệu lịch sử (tối đa 70) + mức thiếu hồ sơ (tối đa 30). Đây không phải xác suất bị từ chối, vì dữ liệu chỉ có các lô đã bị từ chối, không có các lô nhập thành công.',
         expert: 'Bản demo chưa kết nối chuyên gia. Hãy gửi báo cáo và các mục chưa đạt cho người phụ trách QA hoặc tư vấn pháp lý của bạn.',
         help: 'Mình có thể giúp:\n• Tra lỗi hay gặp của một sản phẩm (ví dụ "tôm", "hạt điều")\n• Giải thích mã lỗi FDA (ví dụ "mã 3300", "salmonella")\n• Rà soát nhãn, dị ứng, đăng ký cơ sở, FSVP, FCE/SID\n• Nguồn dữ liệu và cách tính điểm'
@@ -71,7 +71,7 @@
     input.placeholder = 'Nhập câu hỏi…'; input.setAttribute('aria-label', 'Nhập câu hỏi');
     const head = el('div', 'pcc-head'), close = el('button', 'pcc-x', '×');
     close.type = 'button'; close.setAttribute('aria-label', 'Đóng'); close.onclick = () => api.close();
-    head.append(el('b', '', 'PRECHECK AI (demo)'), el('small', '', '● Trực tuyến'), close);
+    head.append(el('b', '', 'PRECHECK • Trợ lý quy tắc'), el('small', '', '● Demo offline'), close);
     const send = el('button', '', 'Gửi'); send.type = 'submit'; form.append(input, send);
     panel.append(head, msgs, chips, form, el('div', 'pcc-note', 'Trợ lýtrả lời theo dữ liệu FDA và thư viện mã lỗi có sẵn. PRECHECK là công cụ hỗ trợ ra quyết định, không thay thế kết luận pháp lý hoặc kết quả kiểm nghiệm.'));
     document.body.append(panel);
@@ -85,5 +85,5 @@
     const api = { open() { panel.classList.add('open'); input.focus(); }, close() { panel.classList.remove('open'); }, ask };
     window.PCChat = api;
     const existing = document.getElementById('chatBtn');
-    if (!existing) { const f = el('button', 'pcc-fab', 'Hỏi PRECHECK AI'); f.type = 'button'; f.onclick = () => (panel.classList.contains('open') ? api.close() : api.open()); document.body.append(f); }
+    if (!existing) { const f = el('button', 'pcc-fab', 'Hỏi PRECHECK'); f.type = 'button'; f.onclick = () => (panel.classList.contains('open') ? api.close() : api.open()); document.body.append(f); }
 })();

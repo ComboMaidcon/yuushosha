@@ -90,8 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     $('googleBtn').addEventListener('click', () => {
-        localStorage.setItem(SESSION_KEY, JSON.stringify({ companyName: 'Doanh nghiệp Xuất khẩu Việt (Google, demo)', taxCode: '0309998887', email: 'google-user@precheck.vn', smeType: 'Nhỏ (10 - 50 nhân sự)', industry: 'Nông sản & Trái cây sấy' }));
-        showMessage('Đăng nhập demo, không xác thực thật. Đang chuyển hướng...', 'success');
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ companyName: 'Doanh nghiệp Yuushousha (tài khoản demo)', taxCode: '0309998887', email: 'demo-offline@precheck.local', smeType: 'Nhỏ (10 - 50 nhân sự)', industry: 'Nông sản & Trái cây sấy' }));
+        showMessage('Đang vào tài khoản demo · dữ liệu chỉ lưu ở trình duyệt, không có xác thực máy chủ.', 'success');
         go(800);
     });
     $('forgotPasswordLink').addEventListener('click', (e) => {

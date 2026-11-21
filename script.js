@@ -86,10 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Button triggers
     const info = (id, title, text) => document.getElementById(id).addEventListener('click', (e) => { e.preventDefault(); openModal(title, text); });
     info('trialBtn', 'Dùng thử PRECHECK', 'Hãy đăng ký tài khoản ở trang Đăng nhập, hoặc dùng tài khoản dùng thử demo@precheck.vn / 123456. Bản demo chạy trên trình duyệt của bạn, không thu phí thật.');
-    info('demoBtn', 'Xem Demo', 'Video demo sẽ được bổ sung. Bạn có thể dùng thử trực tiếp bằng cách vào Dashboard, chọn Kiểm tra mới.');
+    info('demoBtn', 'Xem Demo', 'Bạn có thể thử trực tiếp trong Dashboard → Kiểm tra mới. Bản demo không có video hoặc thanh toán thật.');
     document.getElementById('chatBtn').addEventListener('click', (e) => { e.preventDefault(); if (window.PCChat) window.PCChat.open(); });
     info('faq1', 'FAQ: Dữ liệu nào được dùng?', 'Phiên bản hiện tại dùng FDA Import Refusal Report (lô hàng thực phẩm bị FDA từ chối, từ 10/2021 đến 23/10/2026) và bảng mã lý do của FDA. Các nguồn khác như Import Alerts, RASFF, EUR-Lex sẽ được bổ sung sau.');
     info('faq2', 'FAQ: Báo cáo có thay tư vấn pháp lý?', 'Không. PRECHECK là công cụ hỗ trợ rà soát và ra quyết định. Kết quả dựa trên dữ liệu lịch sử và thông tin doanh nghiệp nhập, chưa được xác minh độc lập, và không thay thế quyết định của FDA, kết quả kiểm nghiệm hay tư vấn pháp lý.');
     info('faq3', 'FAQ: Có hỗ trợ EU không?', 'Chưa. Phiên bản hiện tại chỉ hỗ trợ thị trường Hoa Kỳ (FDA). EU nằm trong kế hoạch phát triển.');
-    info('consultBtn', 'Tư vấn', 'Tính năng đặt lịch tư vấn sẽ có ở phiên bản sau.');
+    info('consultBtn', 'Tư vấn', 'Dịch vụ chuyên gia được báo giá riêng và chưa tích hợp đặt lịch. Bản demo không nhận phí hoặc yêu cầu đặt lịch.');
 });

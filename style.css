@@ -444,3 +444,8 @@ body {
         display: none;
     }
 }
+
+.pricing-section,.source-section{margin:26px 0 40px;scroll-margin-top:20px}
+.section-title-block{text-align:center;max-width:770px;margin:0 auto 24px}.section-title-block h2,.source-section h2{font-size:28px;color:#0b3d25;margin:12px 0}.section-title-block p,.source-section p{line-height:1.5;color:#566f60}.section-kicker{font-size:12px;letter-spacing:.12em;color:#227453;font-weight:800}
+.home-price-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.home-price-card{border-radius:19px;border:1px solid #dce7dd;padding:26px;background:#fff;display:flex;flex-direction:column;min-height:275px}.home-price-card.emphasis{border:2px solid #0b673b;box-shadow:0 12px 28px rgba(5,62,35,.07)}.plan-small{font-size:12px;font-weight:800;letter-spacing:.08em;color:#32775b}.home-price-card h3{color:#0b3d25;font-size:30px;margin:13px 0}.home-price-card h3 small{font-size:15px;font-weight:550}.home-price-card p{font-size:14px;line-height:1.6;color:#536b5d;flex:1}.price-action{display:inline-block;text-decoration:none;text-align:center;background:#f4c430;color:#123e2a;font-weight:800;padding:11px;border-radius:999px;margin-top:22px}.price-caution{font-size:12px;text-align:center;line-height:1.6;color:#6a7569;margin-top:18px}.source-section{padding:26px;background:#e4eee5;border-radius:18px}.source-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:15px}.source-links a{color:#0a5b36;background:white;padding:9px 12px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none}
+@media(max-width:850px){.home-price-grid{grid-template-columns:1fr}.home-price-card{min-height:unset}.section-title-block h2{font-size:24px}} 

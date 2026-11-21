@@ -21,16 +21,16 @@
     const displayName = p => (p[1].startsWith('(') ? p[0] : p[1]);
 
     const NEED = {
-        'Nhãn sản phẩm': ['label', 'Chưa có tệp nhãn hoặc artwork (nhận diện theo tên tệp)', 'Tải artwork nhãn, rà soát Nutrition Facts, danh sách thành phần và chất gây dị ứng', 'CAO'],
-        'COA': ['coa', 'Chưa có tệp COA (nhận diện theo tên tệp)', 'Bổ sung COA đúng hoạt chất và đơn vị từ phòng lab đủ năng lực (ISO/IEC 17025)', 'CAO'],
-        'Giấy phép': ['license', 'Chưa có tệp giấy phép hoặc chứng nhận (nhận diện theo tên tệp)', 'Bổ sung giấy phép, chứng nhận liên quan đến cơ sở và sản phẩm', 'TB'],
-        'Nhà máy': ['factory', 'Chưa thấy số đăng ký cơ sở FDA (FFR) trong ô Nhà máy', 'Đăng ký cơ sở với FDA (FFR) và ghi số đăng ký vào hồ sơ', 'CAO']
+        'Nhãn sản phẩm': ['label', 'Chưa có tên tệp nhãn/artwork trong hồ sơ; chưa xác minh nội dung', 'Tải artwork nhãn, rà soát Nutrition Facts, danh sách thành phần và chất gây dị ứng', 'CAO'],
+        'COA': ['coa', 'Chưa có tên tệp COA trong hồ sơ; chưa có kết quả kiểm nghiệm được xác nhận', 'Bổ sung COA đúng hoạt chất và đơn vị từ phòng lab đủ năng lực (ISO/IEC 17025)', 'CAO'],
+        'Giấy phép': ['license', 'Chưa có tên tệp đăng ký/chứng nhận; cần kiểm tra điều kiện áp dụng', 'Bổ sung giấy phép, chứng nhận liên quan đến cơ sở và sản phẩm', 'TB'],
+        'Nhà máy': ['factory', 'Chưa xác minh số đăng ký cơ sở FDA và điều kiện áp dụng cho cơ sở', 'Đăng ký cơ sở với FDA (FFR) và ghi số đăng ký vào hồ sơ', 'CAO']
     };
     const KEYS = { label: ['nhan', 'label', 'artwork', 'bao bi'], coa: ['coa', 'kiem nghiem', 'test', 'phan tich'], license: ['giay phep', 'license', 'dang ky', 'ffr', 'gpkd'] };
 
     function evidence(files, factory) {
         const names = files.map(norm), has = ks => names.some(n => ks.some(k => n.includes(k)));
-        return { label: has(KEYS.label), coa: has(KEYS.coa), license: has(KEYS.license), factory: /\d{9,}/.test(factory || '') };
+        return { label: has(KEYS.label), coa: has(KEYS.coa), license: has(KEYS.license), factory: false }; // Không thể xác nhận cơ sở hợp lệ chỉ bằng chuỗi chữ số
     }
 
     function analyze(inp) {
@@ -46,24 +46,24 @@
         const gaps = inp.checks.filter(k => NEED[k] && !ev[NEED[k][0]]).map(k => ({ key: k, text: NEED[k][1], action: NEED[k][2], pri: NEED[k][3] }));
         const gap = Math.min(30, gaps.length * 8), total = Math.min(100, hist + gap);
         const level = !g ? 'CHƯA ĐỦ DỮ LIỆU' : total >= 60 ? 'CAO' : total >= 35 ? 'TRUNG BÌNH' : 'THẤP';
-        const causes = signals.slice(0, 3).map(s => s.title + ' (' + s.pct + '% số dòng bị từ chối của nhóm sản phẩm)').concat(gaps.map(x => x.text));
-        const actions = [];
-        signals.slice(0, 3).forEach(s => s.actions.slice(0, 3).forEach(a => actions.push({ text: a, src: 'FDA · ' + s.code, pri: s.priority === 'Cao' ? 'CAO' : 'TB' })));
+        const causes = signals.slice(0, 3).map(s => 'Tín hiệu lịch sử cần rà soát: '+s.title + ' (' + s.pct + '% dòng bị từ chối trong nhóm đã xử lý)').concat(gaps.map(x => x.text));
+        const actions = [{text:'Thẩm định thông tin và tên file đã tải: app chưa đọc nội dung chứng từ, không thể kết luận đạt/không đạt lô mới',src:'Quy trình QA nội bộ',pri:'CAO'}];
+        signals.slice(0, 3).forEach(s => s.actions.slice(0, 3).forEach(a => actions.push({ text: 'Cân nhắc kiểm tra: '+a, src: 'FDA lịch sử · ' + s.code, pri: s.priority === 'Cao' ? 'CAO' : 'TB' })));
         gaps.forEach(x => actions.push({ text: x.action, src: 'Hồ sơ đã nhập', pri: x.pri }));
         return {
             input: inp, group: g ? { key: g[0], name: displayName(g), industry: g[3], nAll: g[4], nVn: g[5], cert: g[6] } : null,
-            scope: vn ? 'vn' : 'gl', signals, score: { hist, gap, total, level }, ev, gaps, causes, actions, value: 1.2e9, done: actions.map(() => false)
+            scope: vn ? 'vn' : 'gl', signals, score: { hist, gap, total, level }, qualityOutcome:'CHƯA ĐỦ CĂN CỨ',evidenceVerified:false, ev, gaps, causes, actions, value: 1.2e9, done: actions.map(() => false)
         };
     }
 
     function matchRows(r) {
         const rows = [];
-        if (r.group) rows.push({ code: 'NHÓM', src: 'Danh mục sản phẩm FDA', freq: 'Việt Nam ' + r.group.nVn + ' · Toàn cầu ' + r.group.nAll + ' dòng', ex: r.group.key, per: D.meta.period, ok: r.group.cert === 'Bản nháp', st: r.group.cert === 'Bản nháp' ? 'ĐÃ KHỚP' : 'CẦN XÁC NHẬN TÊN' });
+        if (r.group) rows.push({ code: 'NHÓM', src: 'Danh mục sản phẩm FDA', freq: 'Việt Nam ' + r.group.nVn + ' · Toàn cầu ' + r.group.nAll + ' dòng', ex: r.group.key, per: D.meta.period, ok: r.group.cert === 'Bản nháp', st: r.group.cert === 'Bản nháp' ? 'NHÓM TẠM KHỚP' : 'CẦN XÁC NHẬN TÊN' });
         else rows.push({ code: 'NHÓM', src: 'Danh mục sản phẩm FDA', freq: '—', ex: 'Không gắn được nhóm sản phẩm nào', per: '—', ok: false, st: 'CHƯA KHỚP' });
-        r.signals.forEach(s => rows.push({ code: s.code, src: 'FDA Import Refusals', freq: s.pct + '% số dòng bị từ chối', ex: (s.official || '').slice(0, 110) + ((s.official || '').length > 110 ? '…' : ''), per: D.meta.period, ok: true, st: 'ĐÃ KHỚP' }));
+        r.signals.forEach(s => rows.push({ code: s.code, src: 'FDA Import Refusals', freq: s.pct + '% số dòng bị từ chối', ex: (s.official || '').slice(0, 110) + ((s.official || '').length > 110 ? '…' : ''), per: D.meta.period, ok: true, st: 'DỮ LIỆU LỊCH SỬ' }));
         return rows;
     }
 
-    const COSTS = [['Lưu kho', 0.04], ['Trả về', 0.08], ['Tiêu hủy', 0.06], ['Mất cơ hội', 0.15]];
+    const COSTS = []; // Không tính tổn thất giả định dưới dạng phần trăm giá trị lô.
     window.PCE = { norm, search, analyze, matchRows, fmt, COSTS, displayName, meta: D.meta, C };
 })();
