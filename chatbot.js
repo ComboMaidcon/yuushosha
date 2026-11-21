@@ -73,12 +73,31 @@
     close.type = 'button'; close.setAttribute('aria-label', 'Đóng'); close.onclick = () => api.close();
     head.append(el('b', '', 'PRECHECK • Trợ lý quy tắc'), el('small', '', '● Demo offline'), close);
     const send = el('button', '', 'Gửi'); send.type = 'submit'; form.append(input, send);
-    panel.append(head, msgs, chips, form, el('div', 'pcc-note', 'Trợ lýtrả lời theo dữ liệu FDA và thư viện mã lỗi có sẵn. PRECHECK là công cụ hỗ trợ ra quyết định, không thay thế kết luận pháp lý hoặc kết quả kiểm nghiệm.'));
+    panel.append(head, msgs, chips, form, el('div', 'pcc-note', 'Trợ lý trả lời theo dữ liệu FDA và thư viện mã lỗi có sẵn. PRECHECK là công cụ hỗ trợ ra quyết định, không thay thế kết luận pháp lý hoặc kết quả kiểm nghiệm.'));
     document.body.append(panel);
     function add(who, text) { const m = el('div', 'pcc-m ' + (who === 'me' ? 'pcc-me' : 'pcc-bot'), text); msgs.append(m); msgs.scrollTop = msgs.scrollHeight; }
     function setChips(list) { chips.replaceChildren(...list.map(t => { const b = el('button', 'pcc-chip', t); b.type = 'button'; b.onclick = () => ask(t); return b; })); }
     const DEFAULT = ['Báo cáo dùng nguồn nào?', 'Dữ liệu cập nhật bao lâu?', 'Có hỗ trợ hồ sơ EU?', 'Tôm hay bị lỗi gì?', 'Rà soát nhãn cần gì?', 'Giải thích mã 3300'];
-    function ask(q) { q = q.trim(); if (!q) return; add('me', q); const r = answer(q); add('bot', r.text); setChips((r.chips || []).concat(DEFAULT).slice(0, 6)); }
+    // Ưu tiên trợ lý AI qua /api/chat (cùng tên miền). Nếu lỗi hoặc chưa cấu hình khóa, quay về bot luật.
+    async function askAI(q) {
+        try {
+            const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 15000);
+            const res = await fetch('/api/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: q }), signal: ctrl.signal });
+            clearTimeout(t);
+            if (!res.ok) return null;
+            const d = await res.json();
+            if (d.mode !== 'model' || !d.answer) return null;
+            const src = [...new Set((d.sources || []).map(s => s.source))].slice(0, 3);
+            return d.answer + (src.length ? '\n\nNguồn tham khảo: ' + src.join('; ') : '');
+        } catch (e) { return null; }
+    }
+    async function ask(q) {
+        q = q.trim(); if (!q) return;
+        add('me', q);
+        const ai = await askAI(q);
+        if (ai) { add('bot', ai); setChips(DEFAULT); return; }
+        const r = answer(q); add('bot', r.text); setChips((r.chips || []).concat(DEFAULT).slice(0, 6));
+    }
     form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); input.value = ''; });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') api.close(); });
     add('bot', 'Xin chào! Mình là trợ lý PRECHECK. ' + TXT.help); setChips(DEFAULT);
