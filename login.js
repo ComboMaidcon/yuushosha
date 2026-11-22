@@ -47,7 +47,26 @@ document.addEventListener('DOMContentLoaded', () => {
             next === 'check-new' ? 'Đăng nhập để tiếp tục tạo báo cáo.' : 'Mở báo cáo và checklist của bạn.';
         document.title = authMainTitle.textContent + ' | PRECHECK';
         hideMessage();
+        syncConsent();
     }
+    const TERMS_VERSION = 'MVP-2026', CONSENT_KEY = 'precheck_consent_log';
+    // Đăng ký: phải tích ô đồng ý thì nút mới sáng. Đăng nhập không cần tích (đã đồng ý khi đăng ký).
+    function syncConsent() { submitBtn.disabled = currentMode === 'register' && !$('termsCheck').checked; }
+    async function recordConsent(userId, source) {
+        const entry = { version: TERMS_VERSION, at: new Date().toISOString(), source };
+        try { const log = JSON.parse(localStorage.getItem(CONSENT_KEY) || '[]'); log.push(entry); localStorage.setItem(CONSENT_KEY, JSON.stringify(log.slice(-50))); } catch (e) { /* bộ nhớ bị chặn */ }
+        try { await fetch('/api/consent', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ userId, version: TERMS_VERSION, source }) }); } catch (e) { /* mất mạng: đã lưu tạm */ }
+    }
+    // Popup điều khoản
+    const termsModal = $('termsModal');
+    const closeTerms = () => { termsModal.hidden = true; $('termsCheck').focus(); };
+    $('openTerms').addEventListener('click', e => { e.preventDefault(); termsModal.hidden = false; $('termsOk').focus(); });
+    $('termsClose').addEventListener('click', closeTerms);
+    $('termsOk').addEventListener('click', closeTerms);
+    termsModal.addEventListener('click', e => { if (e.target === termsModal) closeTerms(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !termsModal.hidden) closeTerms(); });
+    $('termsCheck').addEventListener('change', syncConsent);
+
     tabRegister.addEventListener('click', () => showMode('register'));
     tabLogin.addEventListener('click', () => showMode('login'));
     showMode(currentMode);
@@ -65,11 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const smeType = $('regSmeType').value, industry = $('regIndustry').value;
                 if (!companyName || !taxCode || !email || !password || !smeType || !industry) return showMessage('Vui lòng điền đầy đủ tất cả thông tin doanh nghiệp!', 'error');
                 if (password.length < 6) return showMessage('Mật khẩu phải có ít nhất 6 ký tự!', 'error');
-                if (!$('termsCheck').checked) return showMessage('Bạn cần đồng ý với điều khoản dịch vụ để tiếp tục.', 'error');
+                if (!$('termsCheck').checked) return showMessage('Bạn cần tích chọn đồng ý điều khoản để tiếp tục.', 'error');
                 if (users.find(u => u.email === email || u.taxCode === taxCode)) return showMessage('Email hoặc Mã số thuế này đã được đăng ký! Vui lòng chuyển sang tab Đăng nhập.', 'error');
                 const newUser = { companyName, taxCode, email, passwordHash: await hashPw(email, password), smeType, industry };
                 users.push(newUser);
                 localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                await recordConsent(newUser.email, 'register');
                 localStorage.setItem(SESSION_KEY, JSON.stringify(publicUser(newUser)));
                 go();
             } else {
@@ -92,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showMessage(err.message === 'nocrypto' ? 'Trình duyệt cần chạy trang qua https hoặc localhost để đăng nhập.' : 'Có lỗi xảy ra, vui lòng thử lại.', 'error');
         } finally {
             [submitBtn, demoButton, tabLogin, tabRegister].forEach(button => { button.disabled = false; });
+            syncConsent();
         }
     });
 

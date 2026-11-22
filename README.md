@@ -35,3 +35,30 @@ curl -X POST https://<ten-du-an>.vercel.app/api/chat -H 'content-type: applicati
 Sửa các thẻ `article` trong mục `#ban-tin` của `index.html`. Đặt tin mới ở đầu, điền ngày nguồn công bố và liên kết đến bài gốc. Dùng `data-market="us"` cho Hoa Kỳ, `data-market="vn"` cho Việt Nam hoặc `data-market="us vn"` cho tin liên quan cả hai. Mỗi tin cần một `data-notice-id` riêng. Giữ nguyên mã khi sửa lỗi chính tả và đổi mã khi đăng một cập nhật mới để chuông báo lại. Đổi ngày tuyển chọn ở đầu mục sau khi làm mới danh sách.
 
 Chuông lấy danh sách từ cùng mục bản tin và ghi nhớ trạng thái đã đọc trên trình duyệt. Muốn xem tin đang cập nhật tại cơ quan công bố, dùng các liên kết FDA và Bộ Công Thương dưới dải bản tin. Để chạy trang chủ cục bộ, dùng `python -m http.server 8788` và mở `http://127.0.0.1:8788/`.
+
+
+## Nhật ký xác nhận điều khoản (Supabase)
+1. Tạo project miễn phí tại supabase.com.
+2. Vào SQL Editor, dán và chạy nội dung file `consent_table.sql`.
+3. Vào Project Settings > API, lấy `Project URL` và khóa `service_role` (không phải `anon`).
+4. Trên Vercel, thêm biến môi trường: `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `CONSENT_SALT` (một chuỗi ngẫu nhiên).
+5. Redeploy. Khi đăng ký, mỗi lần đồng ý sẽ có một dòng trong bảng `consent_log`.
+Nếu chưa cấu hình, chức năng vẫn chạy, nhưng nhật ký chỉ nằm trên trình duyệt.
+
+
+## Tin xuất nhập khẩu và chuông thông báo
+1. Trong Supabase, chạy nội dung `news_table.sql` (tạo bảng `news_items`).
+2. Trên Vercel, thêm biến môi trường:
+   - `NEWS_FEEDS`: các cặp "Tên nguồn|URL RSS", ngăn cách bằng dấu phẩy. Kiểm tra từng URL trước khi dùng.
+   - `SYNC_TOKEN`: một chuỗi bí mật tự đặt.
+   - `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`: đã có từ bước nhật ký đồng ý.
+3. Redeploy.
+4. Đăng ký một dịch vụ cron miễn phí (ví dụ cron-job.org) gọi `POST https://<tên-miền>/api/news-sync` mỗi 30–60 phút, với header `x-sync-token: <SYNC_TOKEN>`.
+5. Trang chủ đọc tin qua `/api/news` (cache 10 phút). Chuông hiện số tin mới kể từ lần mở chuông gần nhất trên trình duyệt đó.
+
+Lưu ý: chỉ hỗ trợ RSS (không hỗ trợ Atom). Tin chỉ hiển thị tiêu đề và liên kết đến bài gốc.
+
+## Tin tự động trong bản tin
+- `news-feed.js` đọc `/api/news` và chèn tin vào đầu `#newsRail` trước khi `trade-news.js` chạy, nên chuông cũng nhận các tin này.
+- Các tin bản tin viết tay trong `index.html` vẫn giữ nguyên.
+- Cấu hình: chạy `news_table.sql`, thêm `NEWS_FEEDS`, `SYNC_TOKEN`, rồi đặt cron gọi `POST /api/news-sync` như hướng dẫn trong phần tin tức của bản trước.

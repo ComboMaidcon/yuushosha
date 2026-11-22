@@ -101,8 +101,8 @@
                 <!-- Terms & Submit -->
                 <div class="auth-footer-action">
                     <label class="checkbox-label" id="termsWrap" hidden>
-                        <input type="checkbox" id="termsCheck" checked>
-                        <span>Tôi đồng ý điều khoản dịch vụ</span>
+                        <input type="checkbox" id="termsCheck">
+                        <span>Tôi đã đọc, hiểu rõ và đồng ý với <a href="#" id="openTerms">Điều khoản Sử dụng và Tuyên bố miễn trừ trách nhiệm</a> của PRECHECK.</span>
                     </label>
                     <div id="forgotWrap">
                         <a href="#" id="forgotPasswordLink" class="forgot-link">Quên mật khẩu?</a>
@@ -115,5 +115,36 @@
     </main>
 
     <script src="login.js"></script>
+
+<div class="terms-modal" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle" hidden>
+  <div class="terms-card">
+    <div class="terms-head"><h2 id="termsTitle">Điều khoản sử dụng</h2><button type="button" class="terms-x" id="termsClose" aria-label="Đóng">×</button></div>
+    <div class="terms-body">
+      <p class="terms-lead">Trước khi tiếp tục, vui lòng đọc các nguyên tắc chính:</p>
+      <ul>
+        <li><b>Công cụ hỗ trợ ra quyết định.</b> PRECHECK cung cấp thông tin sàng lọc sơ bộ và checklist dựa trên dữ liệu công khai của FDA và EU.</li>
+        <li><b>Không thay thế chuyên môn.</b> Kết quả không thay thế kiểm nghiệm độc lập (ISO/IEC 17025), tư vấn pháp lý, hay quyết định thông quan của nước nhập khẩu.</li>
+        <li><b>Giới hạn ngành hàng.</b> Chưa hỗ trợ thịt, gia cầm và trứng chế biến thuộc USDA-FSIS.</li>
+        <li><b>Không bảo đảm thông quan.</b> Mức rủi ro thấp không có nghĩa lô hàng chắc chắn được thông quan.</li>
+      </ul>
+    </div>
+    <div class="terms-foot"><a href="terms.html" target="_blank" rel="noopener">Đọc toàn văn</a><button type="button" class="terms-ok" id="termsOk">Đã hiểu</button></div>
+  </div>
+</div>
+<style>
+.terms-modal{position:fixed;inset:0;background:rgba(6,40,24,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000}
+.terms-modal[hidden]{display:none}
+.terms-card{background:#fff;color:#1b2e23;border-radius:14px;width:100%;max-width:460px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.25);overflow:hidden}
+.terms-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e2e8df}
+.terms-head h2{margin:0;font-size:17px;color:#0b3d25}
+.terms-x{background:none;border:0;font-size:24px;line-height:1;cursor:pointer;color:#556b5d;padding:0 4px}
+.terms-body{padding:16px 20px;overflow-y:auto;font-size:14px;line-height:1.6}
+.terms-lead{margin:0 0 10px;color:#556b5d}
+.terms-body ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px}
+.terms-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-top:1px solid #e2e8df;background:#f9fbf7}
+.terms-foot a{color:#0b3d25;font-weight:600;font-size:14px}
+.terms-ok{background:#f4c430;color:#0b3d25;border:0;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer}
+.terms-ok:hover{background:#e0b225}
+</style>
 </body>
 </html>

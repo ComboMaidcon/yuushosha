@@ -448,3 +448,6 @@ body {
     .pane-card { padding: 1rem .77rem; }
 }
 @media print { .dash-skip, .dash-tools { display: none !important; } }
+
+.print-only{display:none}
+@media print{.print-only{display:block;font-size:10px;color:#444;border-top:1px solid #999;margin-top:12px;padding-top:6px}}

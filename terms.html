@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Điều khoản sử dụng | PRECHECK</title>
+<meta name="description" content="Điều khoản sử dụng và tuyên bố miễn trừ trách nhiệm của nền tảng PRECHECK, phiên bản MVP-2026.">
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root {
+  --ink: #1b2e23; --muted: #5b6b62; --paper: #fbfbf8; --card: #ffffff;
+  --line: #e2e8df; --brand: #0b3d25; --brand-soft: #eef3ec; --focus: #0b3d25;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: Manrope, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 16px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-top: 0; padding-bottom: 64px;
+}
+a { color: var(--brand); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+.wrap { max-width: 1040px; margin: 0 auto; }
+
+.topbar { border-bottom: 1px solid var(--line); background: var(--card); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; }
+.brand { font-weight: 700; letter-spacing: 0.02em; color: var(--brand); text-decoration: none; }
+.back { font-size: 14px; font-weight: 600; text-decoration: none; }
+
+.doc-head { padding-block: 48px 32px; border-bottom: 1px solid var(--line); }
+.eyebrow { margin: 0 0 12px; font-size: 13px; font-weight: 600; color: var(--muted); }
+h1 { margin: 0; font-size: 34px; line-height: 1.2; font-weight: 700; color: var(--brand); text-wrap: balance; max-width: 22ch; }
+.meta { margin: 16px 0 0; font-size: 14px; color: var(--muted); }
+
+.layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 56px; padding-block: 40px; align-items: start; }
+.toc { position: sticky; top: 24px; }
+.toc h2 { margin: 0 0 12px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.toc a { display: grid; grid-template-columns: 64px 1fr; gap: 8px; padding: 6px 8px; margin-left: -8px; border-radius: 6px; font-size: 14px; color: var(--ink); text-decoration: none; line-height: 1.4; }
+.toc a span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.toc a:hover { background: var(--brand-soft); }
+
+.content { min-width: 0; max-width: 680px; }
+.summary { background: var(--brand-soft); border-left: 3px solid var(--brand); border-radius: 8px; padding: 24px 24px 8px; margin-bottom: 40px; }
+.summary h2 { margin: 0 0 16px; font-size: 18px; color: var(--brand); }
+.summary ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.summary li { display: grid; gap: 2px; }
+.summary .pl { font-weight: 700; font-size: 15px; }
+.summary li > span:last-child { color: var(--ink); }
+.summary-note { margin: 16px 0 0; font-size: 14px; color: var(--muted); padding-bottom: 16px; }
+
+.art { padding-block: 32px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+.art:first-of-type { border-top: 0; padding-top: 0; }
+.art-no { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.art h2 { margin: 0 0 16px; font-size: 22px; line-height: 1.3; font-weight: 700; color: var(--ink); }
+.lead-text { margin: 0 0 16px; }
+.clause { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 8px; margin: 0 0 14px; }
+.clause .num { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 1px; }
+.clause p { margin: 0; }
+
+.foot { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 0; padding-block: 24px; }
+  .toc { position: static; margin-bottom: 32px; }
+  .toc ol { grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .toc a { grid-template-columns: 1fr; gap: 0; }
+  h1 { font-size: 28px; }
+}
+@media (max-width: 520px) {
+  .toc ol { grid-template-columns: 1fr; }
+  .clause { grid-template-columns: 36px minmax(0, 1fr); }
+  .doc-head { padding-block: 32px 24px; }
+}
+@media print {
+  body { background: #fff; padding: 0; }
+  .topbar, .toc, .back { display: none; }
+  .layout { display: block; padding: 0; }
+  .content { max-width: none; }
+  .summary { background: none; border: 1px solid #999; }
+  .art { break-inside: avoid-page; }
+  a { color: #000; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand">PRECHECK</span>
+    <a class="back" href="login.html">Quay lại đăng ký</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="doc-head">
+    <p class="eyebrow">Pháp lý · Phiên bản MVP-2026</p>
+    <h1>Điều khoản sử dụng và tuyên bố miễn trừ trách nhiệm</h1>
+    <p class="meta">Áp dụng cho nền tảng PRECHECK trong giai đoạn thử nghiệm pilot. Đọc kỹ trước khi sử dụng.</p>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Mục lục">
+      <h2>Mục lục</h2>
+      <ol><li><a href="#dieu-1"><span>Điều 1</span>Chấp thuận Điều khoản và Hiệu lực giao kết</a></li><li><a href="#dieu-2"><span>Điều 2</span>Bản chất dịch vụ và Tuyên bố miễn trừ trách nhiệm cốt lõi (Disclaimer)</a></li><li><a href="#dieu-3"><span>Điều 3</span>Phạm vi áp dụng và Giới hạn kỹ thuật</a></li><li><a href="#dieu-4"><span>Điều 4</span>Nguồn dữ liệu và Mô phỏng ước tính tổn thất</a></li><li><a href="#dieu-5"><span>Điều 5</span>Quyền và Nghĩa vụ của Người dùng</a></li><li><a href="#dieu-6"><span>Điều 6</span>Bảo mật thông tin sản phẩm và Dữ liệu cá nhân</a></li><li><a href="#dieu-7"><span>Điều 7</span>Quyền sở hữu trí tuệ</a></li><li><a href="#dieu-8"><span>Điều 8</span>Giới hạn trách nhiệm pháp lý</a></li><li><a href="#dieu-9"><span>Điều 9</span>Luật áp dụng và Giải quyết tranh chấp</a></li></ol>
+    </nav>
+
+    <div class="content">
+      <section class="summary" aria-labelledby="sum-title">
+        <h2 id="sum-title">Tóm tắt trước khi sử dụng</h2>
+        <ul><li><span class="pl">Công cụ hỗ trợ ra quyết định</span><span>PRECHECK là nền tảng công nghệ cung cấp thông tin sàng lọc sơ bộ, cảnh báo rủi ro tham khảo và danh mục kiểm tra (checklist) dựa trên dữ liệu công khai từ cơ quan quản lý Hoa Kỳ (FDA) và Liên minh Châu Âu (EU).</span></li><li><span class="pl">Không thay thế chuyên môn &amp; cơ quan quản lý</span><span>Kết quả từ PRECHECK không cấu thành tư vấn pháp lý chuyên sâu, không thay thế kết quả kiểm nghiệm độc lập từ phòng thí nghiệm đạt chuẩn (ISO/IEC 17025) và không có giá trị thay thế quyết định thông quan của cơ quan chức năng nước nhập khẩu.</span></li><li><span class="pl">Giới hạn ngành hàng</span><span>Hệ thống hiện hỗ trợ nhóm thực phẩm chế biến và nông/thủy sản thuộc phạm vi quản lý của FDA (Hoa Kỳ) và EU; không bao gồm sản phẩm thịt, gia cầm và trứng chế biến chịu sự quản lý trực tiếp của USDA-FSIS.</span></li></ul>
+        <p class="summary-note">Tóm tắt không thay thế toàn văn điều khoản bên dưới.</p>
+      </section>
+
+<section class="art" id="dieu-1" aria-labelledby="h-1">
+  <p class="art-no">Điều 1</p>
+  <h2 id="h-1">Chấp thuận Điều khoản và Hiệu lực giao kết</h2>
+  <div class="clause"><span class="num">1.1</span><p>Văn bản này (&quot;Điều khoản Sử dụng&quot;) là thỏa thuận pháp lý ràng buộc giữa Người dùng (bao gồm doanh nghiệp, hợp tác xã, tổ chức, cá nhân truy cập và sử dụng hệ thống) và Đơn vị vận hành nền tảng PRECHECK (&quot;Chúng tôi&quot;).</p></div><div class="clause"><span class="num">1.2</span><p>Căn cứ theo Luật Giao dịch điện tử số 20/2023/QH15 của nước Cộng hòa Xã hội Chủ nghĩa Việt Nam, việc Người dùng đánh dấu vào ô xác nhận &quot;Tôi đã đọc, hiểu rõ và đồng ý...&quot; và/hoặc tiến hành đăng nhập, sử dụng bất kỳ tính năng nào của PRECHECK được xem là chữ ký điện tử xác nhận sự chấp thuận toàn bộ nội dung của Điều khoản này.</p></div><div class="clause"><span class="num">1.3</span><p>Nếu Người dùng không đồng ý với bất kỳ nội dung nào dưới đây, vui lòng ngừng truy cập và không sử dụng nền tảng.</p></div>
+</section>
+<section class="art" id="dieu-2" aria-labelledby="h-2">
+  <p class="art-no">Điều 2</p>
+  <h2 id="h-2">Bản chất dịch vụ và Tuyên bố miễn trừ trách nhiệm cốt lõi (Disclaimer)</h2>
+  <div class="clause"><span class="num">2.1</span><p><strong>Vai trò hỗ trợ ra quyết định:</strong> PRECHECK cung cấp các công cụ số hóa bao gồm: Cảnh báo rủi ro (Risk Alert), Danh mục kiểm tra thông minh (Smart Checklist), Ước tính tổn thất tài chính (Risk Cost Estimator) và Theo dõi tuân thủ (Compliance Tracker). Toàn bộ thông tin, điểm số rủi ro (Risk Score) và hướng dẫn khắc phục chỉ mang tính chất tham khảo và hỗ trợ sàng lọc nội bộ trước khi xuất khẩu.</p></div><div class="clause"><span class="num">2.2</span><p><strong>Không thay thế kiểm nghiệm độc lập:</strong> Các cảnh báo về dư lượng thuốc bảo vệ thực vật, kháng sinh, độc tố vi nấm, vi sinh vật hoặc phụ gia trên PRECHECK được tổng hợp từ dữ liệu lịch sử và quy định chung. Nền tảng không thực hiện phân tích mẫu vật lý và không thay thế Phiếu kết quả thử nghiệm (COA) do các phòng thí nghiệm độc lập được công nhận (như chuẩn ISO/IEC 17025 hoặc phòng kiểm nghiệm được nước nhập khẩu chỉ định) cấp.</p></div><div class="clause"><span class="num">2.3</span><p><strong>Không thay thế tư vấn pháp lý chuyên sâu:</strong> Nội dung diễn giải quy định pháp luật Hoa Kỳ và EU trên PRECHECK được biên soạn nhằm hỗ trợ doanh nghiệp dễ tiếp cận. Thông tin này không cấu thành ý kiến tư vấn pháp lý chính thức, dịch vụ khai báo hải quan hay đại diện pháp lý (như U.S. Agent). Doanh nghiệp cần tham vấn luật sư chuyên ngành hoặc chuyên gia xuất nhập khẩu đối với các hồ sơ phức tạp hoặc tranh chấp thương mại.</p></div><div class="clause"><span class="num">2.4</span><p><strong>Không bảo đảm kết quả thông quan:</strong> Việc sản phẩm đạt mức điểm rủi ro thấp (mức Xanh) trên PRECHECK không đồng nghĩa với việc lô hàng chắc chắn được thông quan tại cảng Hoa Kỳ hoặc EU. Quyết định kiểm tra thực tế, lưu giữ (Detention), từ chối nhập khẩu (Refusal) hay thu hồi thuộc toàn quyền của cơ quan quản lý nước nhập khẩu (FDA, Hải quan Hoa Kỳ CBP, Cơ quan an toàn thực phẩm các nước thành viên EU) tại thời điểm hàng cập cảng.</p></div>
+</section>
+<section class="art" id="dieu-3" aria-labelledby="h-3">
+  <p class="art-no">Điều 3</p>
+  <h2 id="h-3">Phạm vi áp dụng và Giới hạn kỹ thuật</h2>
+  <div class="clause"><span class="num">3.1</span><p><strong>Thị trường áp dụng:</strong> Hệ thống tập trung vào hệ thống quy định và dữ liệu cảnh báo của Hoa Kỳ (FDA) và Liên minh Châu Âu (EU - RASFF, EUR-Lex, Access2Markets).</p></div><div class="clause"><span class="num">3.2</span><p><strong>Nhóm sản phẩm loại trừ:</strong> Ở giai đoạn hiện tại, PRECHECK áp dụng cho thực phẩm chế biến, nông sản, thủy sản thuộc thẩm quyền quản lý của FDA và cơ quan an toàn thực phẩm EU. Hệ thống không bao gồm các sản phẩm thịt, gia cầm, sản phẩm từ trứng chế biến thuộc thẩm quyền quản lý trực tiếp của Cục Kiểm tra và An toàn Thực phẩm thuộc Bộ Nông nghiệp Hoa Kỳ (USDA-FSIS). Người dùng cam kết không sử dụng kết quả của PRECHECK để áp dụng cho nhóm hàng loại trừ này.</p></div>
+</section>
+<section class="art" id="dieu-4" aria-labelledby="h-4">
+  <p class="art-no">Điều 4</p>
+  <h2 id="h-4">Nguồn dữ liệu và Mô phỏng ước tính tổn thất</h2>
+  <div class="clause"><span class="num">4.1</span><p><strong>Tính chất dữ liệu nguồn:</strong> Dữ liệu cảnh báo được tổng hợp, làm sạch và chuẩn hóa từ các nguồn công khai chính thức (openFDA, FDA Import Refusals, Import Alerts, Warning Letters, EU RASFF Window, EUR-Lex, Access2Markets). Mặc dù PRECHECK nỗ lực cập nhật định kỳ theo từng phiên bản quy định, luôn tồn tại độ trễ nhất định giữa thời điểm cơ quan nước ngoài ban hành quy định khẩn cấp và thời điểm cập nhật lên hệ thống. Người dùng có trách nhiệm đối chiếu lại link văn bản gốc được đính kèm trong từng báo cáo.</p></div><div class="clause"><span class="num">4.2</span><p>Tính chất của công cụ Ước tính tổn thất (Risk Cost Estimator): Các con số về chi phí kiểm nghiệm, chi phí lưu container/lưu bãi (Demurrage/Detention), phí tái xuất hoặc tiêu hủy được tính toán dựa trên mức trung bình thị trường và thông số giả định do Người dùng nhập vào. Đây là số liệu mô phỏng kịch bản tài chính, không phải báo giá dịch vụ hay cam kết về mức thiệt hại thực tế phát sinh.</p></div>
+</section>
+<section class="art" id="dieu-5" aria-labelledby="h-5">
+  <p class="art-no">Điều 5</p>
+  <h2 id="h-5">Quyền và Nghĩa vụ của Người dùng</h2>
+  <div class="clause"><span class="num">5.1</span><p><strong>Tính chính xác của thông tin đầu vào:</strong> Độ chính xác của kết quả sàng lọc phụ thuộc trực tiếp vào dữ liệu Người dùng cung cấp (mã HS, bảng thành phần, phụ gia, tình trạng hồ sơ, nhãn mác). Người dùng tự chịu trách nhiệm hoàn toàn nếu nhập sai, nhập thiếu hoặc cố tình che giấu thành phần sản phẩm.</p></div><div class="clause"><span class="num">5.2</span><p><strong>Mục đích sử dụng hợp pháp:</strong> Người dùng cam kết sử dụng nền tảng cho mục đích hợp pháp; không sử dụng công cụ tự động (bot, scraper) để trích xuất trái phép cơ sở dữ liệu, không dịch ngược mã nguồn hoặc gây quá tải hạ tầng kỹ thuật của PRECHECK.</p></div>
+</section>
+<section class="art" id="dieu-6" aria-labelledby="h-6">
+  <p class="art-no">Điều 6</p>
+  <h2 id="h-6">Bảo mật thông tin sản phẩm và Dữ liệu cá nhân</h2>
+  <div class="clause"><span class="num">6.1</span><p><strong>Bí mật thương mại của Doanh nghiệp:</strong> Toàn bộ dữ liệu về công thức sản phẩm, bảng thành phần, mã HS và giá trị lô hàng do Người dùng nhập lên hệ thống thuộc quyền sở hữu của Người dùng. PRECHECK cam kết bảo mật, không tiết lộ, mua bán hoặc chia sẻ thông tin kinh doanh cụ thể của Người dùng cho bên thứ ba, trừ trường hợp có yêu cầu bằng văn bản của cơ quan nhà nước có thẩm quyền.</p></div><div class="clause"><span class="num">6.2</span><p><strong>Bảo vệ dữ liệu cá nhân:</strong> Việc thu thập và xử lý thông tin người đại diện tài khoản (họ tên, email, số điện thoại, chức vụ) tuân thủ nghiêm ngặt Nghị định số 13/2023/NĐ-CP về Bảo vệ dữ liệu cá nhân. Người dùng có quyền yêu cầu truy cập, chỉnh sửa hoặc xóa dữ liệu cá nhân của mình khỏi hệ thống bất cứ lúc nào.</p></div>
+</section>
+<section class="art" id="dieu-7" aria-labelledby="h-7">
+  <p class="art-no">Điều 7</p>
+  <h2 id="h-7">Quyền sở hữu trí tuệ</h2>
+  <p class="lead-text">Toàn bộ giao diện, mã nguồn phần mềm, thuật toán chấm điểm rủi ro (Risk Scoring Engine), bộ dữ liệu đã được làm sạch và hệ thống Smart Checklist bản địa hóa tiếng Việt là tài sản trí tuệ độc quyền của đội ngũ phát triển PRECHECK. Người dùng được cấp quyền sử dụng không độc quyền, không chuyển nhượng trong phạm vi gói dịch vụ đã đăng ký.</p>
+</section>
+<section class="art" id="dieu-8" aria-labelledby="h-8">
+  <p class="art-no">Điều 8</p>
+  <h2 id="h-8">Giới hạn trách nhiệm pháp lý</h2>
+  <p class="lead-text">Trong mọi trường hợp và ở mức tối đa mà pháp luật Việt Nam cho phép, PRECHECK và đội ngũ phát triển không chịu trách nhiệm bồi thường đối với bất kỳ thiệt hại gián tiếp, ngẫu nhiên, đặc biệt hoặc hệ quả nào phát sinh từ việc sử dụng hoặc không thể sử dụng nền tảng, bao gồm nhưng không giới hạn ở: tổn thất doanh thu, mất cơ hội kinh doanh, chi phí lưu kho bãi tại cảng, chi phí tiêu hủy hoặc tái xuất hàng hóa do quyết định của cơ quan hải quan và cơ quan quản lý nước nhập khẩu.</p>
+</section>
+<section class="art" id="dieu-9" aria-labelledby="h-9">
+  <p class="art-no">Điều 9</p>
+  <h2 id="h-9">Luật áp dụng và Giải quyết tranh chấp</h2>
+  <div class="clause"><span class="num">9.1</span><p>Điều khoản Sử dụng này được điều chỉnh và giải thích theo pháp luật nước Cộng hòa Xã hội Chủ nghĩa Việt Nam.</p></div><div class="clause"><span class="num">9.2</span><p>Mọi tranh chấp phát sinh liên quan đến việc giải thích hoặc thực hiện Điều khoản này trước hết sẽ được giải quyết thông qua thương lượng, hòa giải trên tinh thần thiện chí. Trường hợp không đạt được thỏa thuận trong vòng 30 ngày, một trong các bên có quyền đưa tranh chấp ra Tòa án nhân dân có thẩm quyền tại Việt Nam để giải quyết theo quy định của pháp luật.</p></div>
+</section>
+
+      <p class="foot">Bằng việc đánh dấu đồng ý trên màn hình đăng ký, bạn xác nhận đã đọc, hiểu và chấp nhận các điều khoản trên.</p>
+    </div>
+  </div>
+</main>
+</body>
+</html>

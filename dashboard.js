@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
           h('h3',{},'Gói dịch vụ trong bản demo'),
           h('p',{},cur.billingPlan==='sme'?'SME – tối đa 3 báo cáo/tháng':'Mua theo báo cáo lẻ'),
           h('p',{class:'demo-cap'},'Giá NIÊM YẾT tham khảo '+PR.format(cur.fee||PR.active.single)+'; không phát sinh thu tiền, không tạo giao dịch/hóa đơn.'),
-          h('div',{class:'rp-acts'},h('button',{class:'btn-solid',onclick:()=>window.print()},'In / Lưu PDF'),h('button',{class:'btn-ghost',onclick:copySummary},'Sao chép tóm tắt'))))),
+          h('div',{class:'rp-acts'},h('button',{class:'btn-solid',onclick:()=>{ window.ensurePrintDisclaimer(); window.print(); }},'In / Lưu PDF'),h('button',{class:'btn-ghost',onclick:copySummary},'Sao chép tóm tắt'))))),
         h('div',{class:'rp-acts'},h('button',{class:'btn-yel',onclick:()=>showActions()},'Xem checklist hành động'),h('button',{class:'btn-ghost',onclick:()=>showMatching()},'Quay lại đối chiếu')));
       show('report', 'Báo cáo sàng lọc', cur.id + ' · ' + cur.input.name, 'check-new');
     }
@@ -659,3 +659,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     route(false);
 });
+
+// Dòng miễn trừ trách nhiệm chỉ hiện khi in / lưu PDF.
+window.ensurePrintDisclaimer = function () {
+    if (document.getElementById('print-disclaimer')) return;
+    const wrap = document.createElement('div'); wrap.id = 'print-disclaimer'; wrap.className = 'print-only';
+    wrap.textContent = 'Báo cáo sàng lọc sơ bộ từ PRECHECK, không phải chứng thư kiểm định hay kết quả kiểm nghiệm và không có giá trị thay thế quyết định thông quan. Căn cứ dữ liệu công khai FDA/EU tại thời điểm xuất báo cáo.';
+    document.body.append(wrap);
+};
