@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | PRECHECK</title>
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+<body>
+    <main class="auth-container">
+        <a href="index.html" class="back-home-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.5 7.5 9.8 4.5-1.3 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.8 12 2.1 2.1 4.6-4.6"/></svg>
+            PRECHECK <span>Về trang chủ</span>
+        </a>
+        <div class="auth-layout">
+            <aside class="auth-scene">
+                <div>
+                    <p>Rà soát trước khi gửi hàng</p>
+                    <span>Lưu báo cáo và theo dõi checklist cho hồ sơ thực phẩm xuất khẩu sang Hoa Kỳ.</span>
+                </div>
+            </aside>
+
+        <!-- Auth Card Box -->
+        <div class="auth-card">
+            <header class="auth-header-top">
+                <h1 id="authMainTitle">Đăng nhập</h1>
+                <p id="authSubTitle">Mở báo cáo và checklist của bạn.</p>
+            </header>
+            <!-- Switch Tabs: Đăng ký / Đăng nhập -->
+            <div class="auth-tabs" role="group" aria-label="Chọn cách vào PRECHECK">
+                <button type="button" class="tab-btn active" id="tabLogin" aria-pressed="true" aria-controls="loginFields">Đăng nhập</button>
+                <button type="button" class="tab-btn" id="tabRegister" aria-pressed="false" aria-controls="registerFields">Đăng ký demo</button>
+            </div>
+
+            <!-- Direct demo login; no external identity provider -->
+            <div class="auth-demo-row">
+                <button type="button" class="auth-demo-button" id="googleBtn">Vào nhanh bằng tài khoản demo</button>
+                <p>Dữ liệu tài khoản và báo cáo được lưu trên trình duyệt này.</p>
+            </div>
+
+            <!-- Alert Message Box -->
+            <div id="authMessage" class="auth-message" role="status" hidden></div>
+
+            <!-- Form Fields -->
+            <form id="authForm">
+                <!-- REGISTER FIELDS -->
+                <div class="form-grid" id="registerFields" hidden>
+                    <div class="form-group">
+                        <label for="regCompanyName">Tên doanh nghiệp <span class="req">*</span></label>
+                        <input type="text" autocomplete="organization" placeholder="VD: Công ty TNHH Thực phẩm Xanh" id="regCompanyName">
+                    </div>
+                    <div class="form-group">
+                        <label for="regTaxCode">Mã số thuế <span class="req">*</span></label>
+                        <input type="text" placeholder="VD: 0101234567" id="regTaxCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email doanh nghiệp <span class="req">*</span></label>
+                        <input type="email" autocomplete="email" placeholder="name@company.com" id="regEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Mật khẩu <span class="req">*</span></label>
+                        <input type="password" autocomplete="new-password" placeholder="Tối thiểu 6 ký tự" id="regPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="regSmeType">Loại hình SME <span class="req">*</span></label>
+                        <select id="regSmeType">
+                            <option value="" disabled selected>Chọn loại hình</option>
+                            <option value="Siêu nhỏ (< 10 nhân sự)">Siêu nhỏ (&lt; 10 nhân sự)</option>
+                            <option value="Nhỏ (10 - 50 nhân sự)">Nhỏ (10 - 50 nhân sự)</option>
+                            <option value="Vừa (50 - 200 nhân sự)">Vừa (50 - 200 nhân sự)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="regIndustry">Ngành hàng <span class="req">*</span></label>
+                        <select id="regIndustry">
+                            <option value="" disabled selected>Chọn ngành hàng</option>
+                            <option value="Thủy sản đông lạnh">Thủy sản đông lạnh</option>
+                            <option value="Nông sản & Trái cây sấy">Nông sản & Trái cây sấy</option>
+                            <option value="Hạt điều chế biến">Hạt điều chế biến</option>
+                            <option value="Thực phẩm chế biến khô">Thực phẩm chế biến khô</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- LOGIN FIELDS -->
+                <div class="form-grid-single" id="loginFields">
+                    <div class="form-group">
+                        <label for="loginIdentifier">Email hoặc Mã số thuế <span class="req">*</span></label>
+                        <input type="text" autocomplete="username" placeholder="Nhập email hoặc mã số thuế" id="loginIdentifier">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Mật khẩu <span class="req">*</span></label>
+                        <input type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" id="loginPassword">
+                    </div>
+                    <div class="demo-account-hint">
+                        Tài khoản dùng thử nhanh: <strong>demo@precheck.vn</strong> / <strong>123456</strong>
+                    </div>
+                </div>
+
+                <!-- Terms & Submit -->
+                <div class="auth-footer-action">
+                    <label class="checkbox-label" id="termsWrap" hidden>
+                        <input type="checkbox" id="termsCheck">
+                        <span>Tôi đã đọc, hiểu rõ và đồng ý với <a href="#" id="openTerms">Điều khoản Sử dụng và Tuyên bố miễn trừ trách nhiệm</a> của PRECHECK.</span>
+                    </label>
+                    <div id="forgotWrap">
+                        <a href="#" id="forgotPasswordLink" class="forgot-link">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtn">Đăng nhập</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </main>
+
+    <script src="assets/js/login.js"></script>
+
+<div class="terms-modal" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle" hidden>
+  <div class="terms-card">
+    <div class="terms-head"><h2 id="termsTitle">Điều khoản sử dụng</h2><button type="button" class="terms-x" id="termsClose" aria-label="Đóng">×</button></div>
+    <div class="terms-body">
+      <p class="terms-lead">Trước khi tiếp tục, vui lòng đọc các nguyên tắc chính:</p>
+      <ul>
+        <li><b>Công cụ hỗ trợ ra quyết định.</b> PRECHECK cung cấp thông tin sàng lọc sơ bộ và checklist dựa trên dữ liệu công khai của FDA và EU.</li>
+        <li><b>Không thay thế chuyên môn.</b> Kết quả không thay thế kiểm nghiệm độc lập (ISO/IEC 17025), tư vấn pháp lý, hay quyết định thông quan của nước nhập khẩu.</li>
+        <li><b>Giới hạn ngành hàng.</b> Chưa hỗ trợ thịt, gia cầm và trứng chế biến thuộc USDA-FSIS.</li>
+        <li><b>Không bảo đảm thông quan.</b> Mức rủi ro thấp không có nghĩa lô hàng chắc chắn được thông quan.</li>
+      </ul>
+    </div>
+    <div class="terms-foot"><a href="terms.html" target="_blank" rel="noopener">Đọc toàn văn</a><button type="button" class="terms-ok" id="termsOk">Đã hiểu</button></div>
+  </div>
+</div>
+<style>
+.terms-modal{position:fixed;inset:0;background:rgba(6,40,24,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000}
+.terms-modal[hidden]{display:none}
+.terms-card{background:#fff;color:#1b2e23;border-radius:14px;width:100%;max-width:460px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.25);overflow:hidden}
+.terms-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e2e8df}
+.terms-head h2{margin:0;font-size:17px;color:#0b3d25}
+.terms-x{background:none;border:0;font-size:24px;line-height:1;cursor:pointer;color:#556b5d;padding:0 4px}
+.terms-body{padding:16px 20px;overflow-y:auto;font-size:14px;line-height:1.6}
+.terms-lead{margin:0 0 10px;color:#556b5d}
+.terms-body ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px}
+.terms-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-top:1px solid #e2e8df;background:#f9fbf7}
+.terms-foot a{color:#0b3d25;font-weight:600;font-size:14px}
+.terms-ok{background:#f4c430;color:#0b3d25;border:0;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer}
+.terms-ok:hover{background:#e0b225}
+</style>
+</body>
+</html>

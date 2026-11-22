@@ -1,0 +1,421 @@
+
+/* Stepper Progress Bar */
+.stepper-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 0;
+}
+
+.step-pill {
+    background-color: #dce3dd;
+    color: #7d8e84;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 28px;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.step-pill.active {
+    background-color: #0b4628;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(11, 70, 40, 0.2);
+}
+
+.step-line {
+    width: 36px;
+    height: 2px;
+    background-color: #d6dfd8;
+}
+
+/* Check New 2-Column Grid */
+.check-new-grid {
+    display: grid;
+    grid-template-columns: 1.75fr 0.95fr;
+    gap: 28px;
+    align-items: stretch;
+}
+
+/* Left White Card */
+.cn-left-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 34px 38px;
+    box-shadow: 0 2px 12px rgba(11, 61, 37, 0.04);
+    border: 1px solid rgba(11, 61, 37, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cn-form-upload-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 28px;
+}
+
+.cn-form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cn-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cn-field label {
+    font-size: 13.5px;
+    color: #5e7266;
+    font-weight: 500;
+}
+
+.cn-field input, .cn-field select {
+    background-color: #f3f5f2;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #0b3d25;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.cn-field input:focus, .cn-field select:focus {
+    background-color: #ffffff;
+    border-color: #0b4628;
+    box-shadow: 0 0 0 3px rgba(11, 70, 40, 0.08);
+}
+
+/* Dropzone */
+.cn-upload-col {
+    display: flex;
+    flex-direction: column;
+    padding-top: 22px;
+}
+
+.upload-dropzone {
+    background-color: #e4ede4;
+    border: 2px dashed transparent;
+    border-radius: 16px;
+    min-height: 182px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 20px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.upload-dropzone.dragover {
+    background-color: #d8e6d8;
+    border-color: #0b4628;
+}
+
+.dz-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0b3d25;
+    margin-bottom: 4px;
+}
+
+.dz-hint {
+    font-size: 13px;
+    color: #164f31;
+    line-height: 1.55;
+}
+
+.cn-file-picker {
+    margin-top: 12px;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid #a8bdab;
+    border-radius: 999px;
+    background: #fff;
+    color: #0b3d25;
+    font-weight: 750;
+    cursor: pointer;
+}
+.cn-file-picker:hover { background: #f7faf6; }
+
+.uploaded-file-list {
+    list-style: none;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.uploaded-file-list:empty { display: none; }
+
+.uploaded-file-item {
+    background: #ffffff;
+    padding: 2px 6px 2px 10px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: #0b3d25;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.uploaded-file-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.remove-file-btn {
+    flex: 0 0 44px;
+    min-height: 44px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #893a32;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 8px;
+}
+.remove-file-btn:hover { background: #fff4f0; }
+
+.cn-error { color: #922b2b; font-size: 13px; line-height: 1.45; margin-top: 5px; }
+.cn-error:empty { margin: 0; }
+.cn-field [aria-invalid="true"] { border-color: #a83d35; }
+.cn-group-lookup { color: #315d45; font-size: 13px; }
+.cn-group-lookup summary { width: fit-content; cursor: pointer; font-weight: 750; padding: 10px 0; }
+.cn-group-lookup input { margin-bottom: 8px; }
+.cn-draft { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 13px; color: #526759; }
+.cn-draft[hidden] { display: none; }
+.cn-draft button {
+    min-height: 44px;
+    background: transparent;
+    border: 0;
+    color: #315d45;
+    font: inherit;
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* Action Row */
+.cn-action-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 14px;
+    margin-top: 6px;
+}
+
+.btn-analyze-risk {
+    background-color: #f4c430;
+    color: #18291d;
+    border: none;
+    padding: 12px 48px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: auto;
+    min-height: 44px;
+    box-shadow: 0 4px 12px rgba(244, 196, 48, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-analyze-risk:hover {
+    background-color: #e3b320;
+    transform: translateY(-2px);
+}
+
+/* Right Dark Green Card */
+.cn-right-card {
+    background-color: #0b4628;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 20px rgba(11, 70, 40, 0.16);
+}
+
+.cn-right-title {
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.cn-right-desc {
+    font-size: 12.5px;
+    color: #a8c7b6;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.cn-right-desc.unlocked {
+    color: #f4c430;
+    font-weight: 600;
+}
+
+.check-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.check-option-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    user-select: none;
+}
+
+.check-option-item:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.check-option-item.checked {
+    background-color: rgba(244, 196, 48, 0.2);
+    border: 1px solid rgba(244, 196, 48, 0.6);
+}
+
+.check-option-item.disabled-item {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.check-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.audit-checkbox {
+    width: 17px;
+    height: 17px;
+    accent-color: #f4c430;
+    cursor: pointer;
+}
+
+.item-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.item-price {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #d0e3d8;
+}
+
+.check-option-item.checked .item-price {
+    color: #f4c430;
+}
+
+.cn-demo-note {
+    font-size: 14px;
+    color: #d6e6dd;
+    margin-top: 8px;
+}
+
+/* Total Payment Summary Box */
+.payment-summary-box {
+    background-color: rgba(6, 40, 24, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 24px;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    color: #c2d8cc;
+}
+
+.payment-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin: 12px 0;
+}
+
+.payment-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-total-row span:first-child {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.total-amount {
+    font-size: 22px;
+    font-weight: 800;
+    color: #f4c430;
+}
+
+@media (max-width: 1050px) {
+    .check-new-grid {
+        grid-template-columns: 1fr;
+    }
+    .cn-form-upload-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* PRECHECK V4: clean transparent per-report / monthly pricing */
+.billing-options{display:grid;gap:12px;margin:16px 0}
+.billing-choice{display:flex;gap:12px;align-items:center;padding:17px 15px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(255,255,255,.08);cursor:pointer;color:#fff}
+.billing-choice.selected{background:rgba(248,207,58,.17);border-color:#f4c430}
+.billing-choice input{accent-color:#f4c430;width:18px;height:18px;flex-shrink:0}
+.billing-choice span{display:grid;gap:4px}.billing-choice strong{font-size:17px}.billing-choice small{color:#cce4d4;font-size:12px;line-height:1.4}
+.scope-panel{border-radius:13px;background:rgba(255,255,255,.07);padding:16px;font-size:13px}.scope-panel ul{padding-left:18px;line-height:1.65;margin-top:7px}.scope-panel li{margin-bottom:4px}
+.quota-row{margin-top:10px}.quota-row strong{text-align:right;max-width:60%;font-size:11px;line-height:1.35}
+.tiny-legal{font-size:11px;line-height:1.5;color:#cbdfd3;margin-top:14px}
+.extra-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:18px;margin-top:16px}
+.extra-card{background:#fff;border:1px solid #e2ebe2;border-radius:16px;padding:24px;line-height:1.55;box-shadow:0 2px 10px rgba(10,45,25,.03)}
+.extra-card h3{margin:0 0 9px;color:#0b4628}.extra-card p,.extra-card li{font-size:14px;color:#506b5d}.extra-card ul{padding-left:18px;margin-top:10px}
+.extra-card.emphasis{border:2px solid #0b4628}.extra-tag{font-weight:800;font-size:12px;color:#3f7661;letter-spacing:.05em}.extra-price{font-size:30px;font-weight:850;color:#0b4628;margin:12px 0}
+.extra-price small{font-size:13px;font-weight:500}.extra-card button,.extra-card .extra-button{display:inline-block;text-decoration:none;border:0;border-radius:999px;background:#f4c430;color:#183d2b;font-weight:750;padding:10px 19px;cursor:pointer;margin-top:12px}
+.extra-card input,.extra-card select{display:block;width:100%;max-width:400px;padding:11px;border:1px solid #cbdccf;border-radius:9px;font-size:15px;margin-top:6px}
+.cost-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:16px}.cost-fields label{font-size:13px;font-weight:700;color:#375b4b}
+.extra-sum{font-size:34px;font-weight:800;color:#0b4628}.extra-note{background:#fff4d8;padding:14px;border-radius:11px;font-size:12.5px;line-height:1.5;margin:14px 0;color:#6a531b}
+.extra-link{font-weight:700;color:#0b6238;word-break:break-word}.extra-card a{color:#0b6238}
+@media(max-width:600px){.cn-right-card{padding:23px}.billing-choice strong{font-size:16px}.extra-grid{grid-template-columns:1fr}.cn-form-upload-split{grid-template-columns:1fr}}
+/* Mobile final cascade override (loaded after dashboard.css) */
+@media(max-width:650px){
+ .stepper-wrapper{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-width:100%;width:100%;margin:12px 0 18px}
+ .stepper-wrapper .step-line{display:none}
+ .stepper-wrapper .step-pill{width:100%;max-width:100%;white-space:normal;overflow-wrap:anywhere;text-align:center;font-size:11px;padding:10px 4px}
+ .cn-form-upload-split{grid-template-columns:minmax(0,1fr)}
+ .check-new-grid{grid-template-columns:minmax(0,1fr)}
+}
+/* Align the input card naturally rather than stretching its action to the bottom. */
+@media(min-width:1051px){.check-new-grid{align-items:start}.cn-left-card{justify-content:flex-start}.cn-action-row{margin-top:18px}}
+@media(max-width:650px){
+ .btn-analyze-risk{width:100%;padding-inline:12px}
+ .cn-left-card,.cn-right-card{padding:21px}
+ .cn-form-upload-split{gap:20px}
+}
+.cost-fields input{width:100%;min-width:0;box-sizing:border-box;display:block;margin-top:7px;border:1px solid #cbdccf;border-radius:9px;padding:10px 12px;font-size:15px;color:#0b3d25;background:#f9fbf8}
+.cost-fields input:focus{outline:2px solid #288158;outline-offset:1px}

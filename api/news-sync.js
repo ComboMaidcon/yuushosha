@@ -30,8 +30,12 @@ async function sha256(text) {
 }
 async function fetchText(url) {
   const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 8000);
-  try { const r = await fetch(url, { signal: ctrl.signal, headers: { 'user-agent': 'PRECHECK-news/1.0' } }); return r.ok ? await r.text() : ''; }
-  catch (e) { return ''; } finally { clearTimeout(t); }
+  try {
+    const r = await fetch(url, { signal: ctrl.signal, headers: { 'user-agent': 'PRECHECK-news/1.0', accept: 'application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8' } });
+    const text = r.ok ? await r.text() : '';
+    return { status: r.status, text, error: r.ok ? null : 'http_' + r.status };
+  } catch (e) { return { status: 0, text: '', error: String(e && e.name || 'fetch_error') }; }
+  finally { clearTimeout(t); }
 }
 
 export default async function handler(request) {
@@ -45,15 +49,20 @@ export default async function handler(request) {
 
   const now = new Date().toISOString();
   const rows = [];
+  const report = [];
   for (const f of feeds) {
-    const xml = await fetchText(f.url);
-    for (const item of parseRss(xml, f.name)) {
+    const res = await fetchText(f.url);
+    const parsed = parseRss(res.text, f.name);
+    let matched = 0;
+    for (const item of parsed) {
       const hay = item.title.toLowerCase();
       if (!KEYWORDS.some(k => hay.includes(k))) continue;
+      matched++;
       rows.push({ id: await sha256(item.link), ...item, fetched_at: now });
     }
+    report.push({ name: f.name, http: res.status, error: res.error, bytes: res.text.length, items: parsed.length, matched });
   }
-  if (!rows.length) return json({ ok: true, saved: 0 });
+  if (!rows.length) return json({ ok: true, saved: 0, feeds: report });
 
   const r = await fetch(url.replace(/\/$/, '') + '/rest/v1/news_items?on_conflict=id', {
     method: 'POST',
@@ -61,5 +70,5 @@ export default async function handler(request) {
     body: JSON.stringify(rows),
   });
   if (!r.ok) return json({ error: 'store_failed', status: r.status }, 502);
-  return json({ ok: true, saved: rows.length });
+  return json({ ok: true, saved: rows.length, feeds: report });
 }
