@@ -1,4 +1,4 @@
-import { checkedOn, getSources, localAnswer, matchTopics } from '../expert-knowledge.js';
+import { checkedOn, getSources, localAnswer, matchTopics } from '../assets/js/expert-knowledge.js';
 
 export const config = { runtime: 'edge' };
 
