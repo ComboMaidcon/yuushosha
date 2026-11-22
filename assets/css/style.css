@@ -164,6 +164,8 @@ a { color: inherit; text-underline-offset: .2em; }
 .site-footer { background: var(--deep); color: var(--paper); padding-block: 1.25rem; }
 .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
 .footer-inner p { color: #dce8df; font-size: .78rem; }
+.footer-terms { display: inline-block; margin-top: .35rem; color: #dce8df; font-size: .78rem; text-underline-offset: 3px; }
+.footer-terms:hover { color: #fff; }
 .site-footer :focus-visible, .hero :focus-visible, .featured-price :focus-visible { outline-color: var(--gold-light); }
 
 @media (max-width: 1040px) {
