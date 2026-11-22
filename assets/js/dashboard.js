@@ -375,21 +375,60 @@ document.addEventListener('DOMContentLoaded', () => {
       const grp = matched?.[0] ?? null;
       const gName = matched ? E.displayName(matched) : 'Không gắn nhóm FDA';
       const fee=plan==='sme'?PR.active.sme:PR.active.single;
-      openModal('Xác nhận báo cáo thử nghiệm',h('div',{style:'font-size:14px;line-height:1.7;color:#1b2e23'},
+      openModal('Xác nhận báo cáo',h('div',{style:'font-size:14px;line-height:1.7;color:#1b2e23'},
         h('p',{},h('strong',{},'Sản phẩm: '),f.name.value),h('p',{},h('strong',{},'Thị trường: '),f.market.value),
         h('p',{},h('strong',{},'Nhóm FDA: '),gName),h('p',{},h('strong',{},'Tệp mang tên: '),uploaded.length+' (chưa đọc nội dung, chưa xác minh)'),
         h('p',{},h('strong',{},'Phạm vi: '),'Nhãn · COA · thủ tục · nhà máy (tự động xem xét cả 4 nhóm)'),
-        h('div',{style:'background:#f3f6f0;padding:12px 16px;border-radius:10px;margin:14px 0'},'Giá niêm yết '+(plan==='sme'?'gói tháng':'mỗi báo cáo')+': '+PR.format(fee)+' · chỉ mô phỏng, KHÔNG thu tiền.'),
+        h('div',{style:'background:#f3f6f0;padding:12px 16px;border-radius:10px;margin:14px 0'},'Giá niêm yết '+(plan==='sme'?'gói tháng':'mỗi báo cáo')+': '+PR.format(fee)+''),
         h('p',{class:'demo-cap'},'Hệ thống chỉ sàng lọc dựa trên mã FDA lịch sử và tên tệp; không phê duyệt chất lượng hay thông quan.'),
         h('p', { id: 'confirmRunError', class: 'cn-error', role: 'alert' }),
-        h('button',{type:'button',id:'confirmRunBtn',class:'btn-solid dash-confirm',onclick:()=>run(CHECK_ALL,grp,plan,fee)},'Tạo báo cáo demo')));
+        h('button',{type:'button',id:'confirmRunBtn',class:'btn-solid dash-confirm',onclick:()=>showPayment(plan,fee,()=>run(CHECK_ALL,grp,plan,fee))},'Tiếp tục thanh toán')));
     });
+    // Luồng thanh toán mô phỏng: không nhận thông tin thẻ, không có giao dịch thật.
+    function showPayment(plan, fee, onPaid) {
+        const area = h('div', { id: 'payArea', style: 'min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center' });
+        const start = h('button', { type: 'button', class: 'btn-solid dash-confirm', id: 'payStart' }, 'Thanh toán');
+        const radios = name => [...document.querySelectorAll('input[name="payMethod"]')].find(x => x.value === name);
+        const method = () => ([...document.querySelectorAll('input[name="payMethod"]')].find(x => x.checked) || {}).value || 'transfer';
+        const body = h('div', {},
+            h('p', { style: 'margin:0 0 12px' }, h('strong', {}, 'Số tiền: '), PR.format(fee)),
+            h('div', { style: 'display:flex;gap:16px;margin-bottom:12px' },
+                h('label', { style: 'display:flex;gap:6px;align-items:center;cursor:pointer' }, h('input', { type: 'radio', name: 'payMethod', value: 'transfer', checked: 'checked' }), 'Chuyển khoản QR'),
+                h('label', { style: 'display:flex;gap:6px;align-items:center;cursor:pointer' }, h('input', { type: 'radio', name: 'payMethod', value: 'card' }), 'Thẻ ngân hàng')),
+            area, h('div', { style: 'margin-top:12px' }, start),
+            h('p', { class: 'demo-cap' }, 'Bản trình diễn: không có giao dịch thật và không thu tiền.'));
+        openModal('Thanh toán gói báo cáo', body);
+        const wait = (ms, fn) => setTimeout(() => { if (modal.open) fn(); }, ms);
+        const finish = () => { modal.close(); onPaid(); };
+        const render = () => {
+            area.replaceChildren();
+            if (method() === 'card') {
+                area.append(h('p', { style: 'margin:0;color:#5e7266' }, 'Thẻ sẽ được xác nhận qua cổng thanh toán.'));
+                return;
+            }
+            const img = h('img', { src: 'assets/img/qr-demo.svg', alt: 'Mã QR chuyển khoản', width: 180, height: 180, style: 'border-radius:8px;background:#fff;padding:8px' });
+            area.append(img, h('p', { style: 'margin:0;color:#5e7266;font-size:14px' }, 'Quét mã bằng ứng dụng ngân hàng để chuyển khoản.'));
+        };
+        radios('transfer').addEventListener('change', () => { if (!start.disabled) render(); });
+        radios('card').addEventListener('change', () => { if (!start.disabled) render(); });
+        render();
+        start.addEventListener('click', () => {
+            start.disabled = true; start.textContent = 'Đang xử lý...';
+            document.querySelectorAll('input[name="payMethod"]').forEach(x => x.disabled = true);
+            const isCard = method() === 'card';
+            area.replaceChildren(h('p', { style: 'margin:0;color:#5e7266' }, isCard ? 'Đang xác nhận thẻ...' : 'Đang chờ xác nhận chuyển khoản...'));
+            wait(isCard ? 1800 : 3200, () => {
+                area.replaceChildren(h('p', { style: 'margin:0;font-weight:600;color:#0b3d25' }, 'Đã nhận thanh toán'));
+                wait(900, finish);
+            });
+        });
+    }
     function run(checks,grp,plan,fee){
       const r=E.analyze({name:f.name.value.trim(),ingredients:f.ing.value.trim(),hs:f.hs.value.trim(),market:f.market.value,factory:f.factory.value.trim(),files:uploaded.slice(),checks,group:grp});
       r.owner=user.email;r.createdAt=new Date().toISOString();r.fee=fee;r.billingPlan=plan;
       r.id='PC-'+new Date().getFullYear()+'-'+Date.now().toString(36).toUpperCase().slice(-7);
       if (!saveReport(r)) {
-          $('confirmRunError').textContent = 'Trình duyệt không lưu được báo cáo. Kiểm tra quyền lưu trữ hoặc dung lượng, rồi thử lại.';
+          openModal('Không lưu được báo cáo', 'Trình duyệt không lưu được báo cáo. Kiểm tra quyền lưu trữ hoặc dung lượng, rồi thử lại.');
           return;
       }
       cur = r;
