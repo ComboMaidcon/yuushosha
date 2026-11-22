@@ -3,48 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRECHECK - Đăng nhập / Đăng ký</title>
+    <title>Đăng nhập | PRECHECK</title>
+    <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="auth-container">
-        <!-- Header Title -->
-        <div class="auth-header-top">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+    <main class="auth-container">
+        <a href="index.html" class="back-home-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.5 7.5 9.8 4.5-1.3 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.8 12 2.1 2.1 4.6-4.6"/></svg>
+            PRECHECK <span>Về trang chủ</span>
+        </a>
+        <div class="auth-layout">
+            <aside class="auth-scene">
                 <div>
-                    <h1 id="authMainTitle">Bắt đầu với PRECHECK</h1>
-                    <p id="authSubTitle">Thiết lập hồ sơ doanh nghiệp trong vài phút</p>
+                    <p>Rà soát trước khi gửi hàng</p>
+                    <span>Lưu báo cáo và theo dõi checklist cho hồ sơ thực phẩm xuất khẩu sang Hoa Kỳ.</span>
                 </div>
-                <a href="index.html" class="back-home-link">← Trang chủ</a>
-            </div>
-        </div>
+            </aside>
 
         <!-- Auth Card Box -->
         <div class="auth-card">
+            <header class="auth-header-top">
+                <h1 id="authMainTitle">Đăng nhập</h1>
+                <p id="authSubTitle">Mở báo cáo và checklist của bạn.</p>
+            </header>
             <!-- Switch Tabs: Đăng ký / Đăng nhập -->
-            <div class="auth-tabs">
-                <button type="button" class="tab-btn active" id="tabRegister">Đăng ký (mô phỏng)</button>
-                <button type="button" class="tab-btn" id="tabLogin">Đăng nhập</button>
+            <div class="auth-tabs" role="group" aria-label="Chọn cách vào PRECHECK">
+                <button type="button" class="tab-btn active" id="tabLogin" aria-pressed="true" aria-controls="loginFields">Đăng nhập</button>
+                <button type="button" class="tab-btn" id="tabRegister" aria-pressed="false" aria-controls="registerFields">Đăng ký demo</button>
             </div>
 
             <!-- Direct demo login; no external identity provider -->
-            <div class="google-login-row">
-                <button type="button" class="btn-google" id="googleBtn">
-                    <span aria-hidden="true">🧪</span>
-                    Vào tài khoản demo ngay (không cần mật khẩu)
-                </button>
+            <div class="auth-demo-row">
+                <button type="button" class="auth-demo-button" id="googleBtn">Vào nhanh bằng tài khoản demo</button>
+                <p>Dữ liệu tài khoản và báo cáo được lưu trên trình duyệt này.</p>
             </div>
 
             <!-- Alert Message Box -->
-            <div id="authMessage" class="auth-message" style="display: none;"></div>
+            <div id="authMessage" class="auth-message" role="status" hidden></div>
 
             <!-- Form Fields -->
             <form id="authForm">
                 <!-- REGISTER FIELDS -->
-                <div class="form-grid" id="registerFields">
+                <div class="form-grid" id="registerFields" hidden>
                     <div class="form-group">
                         <label for="regCompanyName">Tên doanh nghiệp <span class="req">*</span></label>
-                        <input type="text" placeholder="VD: Công ty TNHH Thực phẩm Xanh" id="regCompanyName">
+                        <input type="text" autocomplete="organization" placeholder="VD: Công ty TNHH Thực phẩm Xanh" id="regCompanyName">
                     </div>
                     <div class="form-group">
                         <label for="regTaxCode">Mã số thuế <span class="req">*</span></label>
@@ -52,11 +56,11 @@
                     </div>
                     <div class="form-group">
                         <label for="regEmail">Email doanh nghiệp <span class="req">*</span></label>
-                        <input type="email" placeholder="name@company.com" id="regEmail">
+                        <input type="email" autocomplete="email" placeholder="name@company.com" id="regEmail">
                     </div>
                     <div class="form-group">
                         <label for="regPassword">Mật khẩu <span class="req">*</span></label>
-                        <input type="password" placeholder="Tối thiểu 6 ký tự" id="regPassword">
+                        <input type="password" autocomplete="new-password" placeholder="Tối thiểu 6 ký tự" id="regPassword">
                     </div>
                     <div class="form-group">
                         <label for="regSmeType">Loại hình SME <span class="req">*</span></label>
@@ -80,14 +84,14 @@
                 </div>
 
                 <!-- LOGIN FIELDS -->
-                <div class="form-grid-single" id="loginFields" style="display: none;">
+                <div class="form-grid-single" id="loginFields">
                     <div class="form-group">
                         <label for="loginIdentifier">Email hoặc Mã số thuế <span class="req">*</span></label>
-                        <input type="text" placeholder="Nhập email hoặc mã số thuế đã đăng ký" id="loginIdentifier">
+                        <input type="text" autocomplete="username" placeholder="Nhập email hoặc mã số thuế" id="loginIdentifier">
                     </div>
                     <div class="form-group">
                         <label for="loginPassword">Mật khẩu <span class="req">*</span></label>
-                        <input type="password" placeholder="Nhập mật khẩu" id="loginPassword">
+                        <input type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" id="loginPassword">
                     </div>
                     <div class="demo-account-hint">
                         Tài khoản dùng thử nhanh: <strong>demo@precheck.vn</strong> / <strong>123456</strong>
@@ -96,18 +100,19 @@
 
                 <!-- Terms & Submit -->
                 <div class="auth-footer-action">
-                    <label class="checkbox-label" id="termsWrap">
+                    <label class="checkbox-label" id="termsWrap" hidden>
                         <input type="checkbox" id="termsCheck" checked>
                         <span>Tôi đồng ý điều khoản dịch vụ</span>
                     </label>
-                    <div id="forgotWrap" style="display: none;">
+                    <div id="forgotWrap">
                         <a href="#" id="forgotPasswordLink" class="forgot-link">Quên mật khẩu?</a>
                     </div>
-                    <button type="submit" class="btn-submit" id="submitBtn">Bắt đầu kiểm tra</button>
+                    <button type="submit" class="btn-submit" id="submitBtn">Đăng nhập</button>
                 </div>
             </form>
         </div>
-    </div>
+        </div>
+    </main>
 
     <script src="login.js"></script>
 </body>

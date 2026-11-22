@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabRegister = $('tabRegister'), tabLogin = $('tabLogin'), registerFields = $('registerFields'), loginFields = $('loginFields');
     const termsWrap = $('termsWrap'), forgotWrap = $('forgotWrap'), submitBtn = $('submitBtn');
     const authMainTitle = $('authMainTitle'), authSubTitle = $('authSubTitle'), authMessage = $('authMessage'), authForm = $('authForm');
-    let currentMode = 'register';
+    const demoButton = $('googleBtn');
+    const next = new URLSearchParams(location.search).get('next');
+    const destination = ['check-new', 'my-reports'].includes(next) ? 'dashboard.html#' + next : 'dashboard.html';
+    let currentMode = 'login';
     const USERS_KEY = 'precheck_users', SESSION_KEY = 'precheck_current_user';
 
     // Mật khẩu được băm SHA-256 (demo phía trình duyệt). Hệ thống thật phải băm ở máy chủ.
@@ -23,34 +26,37 @@ document.addEventListener('DOMContentLoaded', () => {
         try { return JSON.parse(raw) || []; } catch (e) { return []; }
     }
     const publicUser = u => ({ companyName: u.companyName, taxCode: u.taxCode, email: u.email, smeType: u.smeType, industry: u.industry });
-    const showMessage = (text, type) => { authMessage.textContent = text; authMessage.className = 'auth-message ' + type; authMessage.style.display = 'block'; };
-    const hideMessage = () => { authMessage.style.display = 'none'; };
-    const go = (ms) => setTimeout(() => { window.location.href = 'dashboard.html'; }, ms);
+    const showMessage = (text, type) => { authMessage.textContent = text; authMessage.className = 'auth-message ' + type; authMessage.hidden = false; };
+    const hideMessage = () => { authMessage.hidden = true; };
+    const go = () => { window.location.replace(destination); };
 
-    tabRegister.addEventListener('click', () => {
-        currentMode = 'register';
-        tabRegister.classList.add('active'); tabLogin.classList.remove('active');
-        registerFields.style.display = 'grid'; loginFields.style.display = 'none';
-        termsWrap.style.display = 'flex'; forgotWrap.style.display = 'none';
-        submitBtn.textContent = 'Bắt đầu kiểm tra';
-        authMainTitle.textContent = 'Bắt đầu với PRECHECK';
-        authSubTitle.textContent = 'Thiết lập hồ sơ doanh nghiệp trong vài phút';
+    function showMode(mode) {
+        currentMode = mode;
+        const register = mode === 'register';
+        tabRegister.classList.toggle('active', register);
+        tabLogin.classList.toggle('active', !register);
+        tabRegister.setAttribute('aria-pressed', String(register));
+        tabLogin.setAttribute('aria-pressed', String(!register));
+        registerFields.hidden = termsWrap.hidden = !register;
+        loginFields.hidden = forgotWrap.hidden = register;
+        registerFields.querySelectorAll('input, select').forEach(field => { field.disabled = !register; });
+        loginFields.querySelectorAll('input').forEach(field => { field.disabled = register; });
+        submitBtn.textContent = register ? 'Tạo tài khoản demo' : 'Đăng nhập';
+        authMainTitle.textContent = register ? 'Đăng ký demo' : 'Đăng nhập';
+        authSubTitle.textContent = register ? 'Nhập thông tin mẫu để thử luồng doanh nghiệp.' :
+            next === 'check-new' ? 'Đăng nhập để tiếp tục tạo báo cáo.' : 'Mở báo cáo và checklist của bạn.';
+        document.title = authMainTitle.textContent + ' | PRECHECK';
         hideMessage();
-    });
-    tabLogin.addEventListener('click', () => {
-        currentMode = 'login';
-        tabLogin.classList.add('active'); tabRegister.classList.remove('active');
-        registerFields.style.display = 'none'; loginFields.style.display = 'flex';
-        termsWrap.style.display = 'none'; forgotWrap.style.display = 'block';
-        submitBtn.textContent = 'Đăng nhập';
-        authMainTitle.textContent = 'Chào mừng trở lại';
-        authSubTitle.textContent = 'Đăng nhập vào hệ thống tiền kiểm rủi ro PRECHECK';
-        hideMessage();
-    });
+    }
+    tabRegister.addEventListener('click', () => showMode('register'));
+    tabLogin.addEventListener('click', () => showMode('login'));
+    showMode(currentMode);
 
     authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (submitBtn.disabled) return;
         hideMessage();
+        [submitBtn, demoButton, tabLogin, tabRegister].forEach(button => { button.disabled = true; });
         try {
             const users = await getUsers();
             if (currentMode === 'register') {
@@ -65,8 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 users.push(newUser);
                 localStorage.setItem(USERS_KEY, JSON.stringify(users));
                 localStorage.setItem(SESSION_KEY, JSON.stringify(publicUser(newUser)));
-                showMessage('Đăng ký thành công! Đang chuyển hướng vào Dashboard...', 'success');
-                go(900);
+                go();
             } else {
                 const id = $('loginIdentifier').value.trim().toLowerCase(), password = $('loginPassword').value;
                 if (!id || !password) return showMessage('Vui lòng nhập Email/Mã số thuế và Mật khẩu!', 'error');
@@ -81,18 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (!ok) return showMessage('Thông tin đăng nhập hoặc mật khẩu không chính xác!', 'error');
                 localStorage.setItem(SESSION_KEY, JSON.stringify(publicUser(u)));
-                showMessage('Xin chào ' + u.companyName + '! Đang vào Dashboard...', 'success');
-                go(800);
+                go();
             }
         } catch (err) {
             showMessage(err.message === 'nocrypto' ? 'Trình duyệt cần chạy trang qua https hoặc localhost để đăng nhập.' : 'Có lỗi xảy ra, vui lòng thử lại.', 'error');
+        } finally {
+            [submitBtn, demoButton, tabLogin, tabRegister].forEach(button => { button.disabled = false; });
         }
     });
 
-    $('googleBtn').addEventListener('click', () => {
-        localStorage.setItem(SESSION_KEY, JSON.stringify({ companyName: 'Doanh nghiệp Yuushousha (tài khoản demo)', taxCode: '0309998887', email: 'demo-offline@precheck.local', smeType: 'Nhỏ (10 - 50 nhân sự)', industry: 'Nông sản & Trái cây sấy' }));
-        showMessage('Đang vào tài khoản demo · dữ liệu chỉ lưu ở trình duyệt, không có xác thực máy chủ.', 'success');
-        go(800);
+    demoButton.addEventListener('click', () => {
+        try {
+            localStorage.setItem(SESSION_KEY, JSON.stringify({ companyName: 'Doanh nghiệp Yuushousha (tài khoản demo)', taxCode: '0309998887', email: 'demo-offline@precheck.local', smeType: 'Nhỏ (10 - 50 nhân sự)', industry: 'Nông sản & Trái cây sấy' }));
+            go();
+        } catch {
+            showMessage('Trình duyệt không lưu được phiên demo. Kiểm tra quyền lưu trữ và thử lại.', 'error');
+        }
     });
     $('forgotPasswordLink').addEventListener('click', (e) => {
         e.preventDefault();

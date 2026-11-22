@@ -105,20 +105,18 @@
     background-color: #e4ede4;
     border: 2px dashed transparent;
     border-radius: 16px;
-    height: 225px;
+    min-height: 182px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: center;
     padding: 20px;
-    cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    overflow-y: auto;
 }
 
-.upload-dropzone:hover, .upload-dropzone.dragover {
+.upload-dropzone.dragover {
     background-color: #d8e6d8;
     border-color: #0b4628;
 }
@@ -130,18 +128,24 @@
     margin-bottom: 4px;
 }
 
-.dz-sub {
-    font-size: 15px;
-    font-weight: 700;
-    color: #0b3d25;
-    margin-bottom: 6px;
+.dz-hint {
+    font-size: 13px;
+    color: #164f31;
+    line-height: 1.55;
 }
 
-.dz-hint {
-    font-size: 14px;
-    font-weight: 600;
-    color: #164f31;
+.cn-file-picker {
+    margin-top: 12px;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid #a8bdab;
+    border-radius: 999px;
+    background: #fff;
+    color: #0b3d25;
+    font-weight: 750;
+    cursor: pointer;
 }
+.cn-file-picker:hover { background: #f7faf6; }
 
 .uploaded-file-list {
     list-style: none;
@@ -151,10 +155,11 @@
     flex-direction: column;
     gap: 6px;
 }
+.uploaded-file-list:empty { display: none; }
 
 .uploaded-file-item {
     background: #ffffff;
-    padding: 6px 12px;
+    padding: 2px 6px 2px 10px;
     border-radius: 8px;
     font-size: 12.5px;
     color: #0b3d25;
@@ -164,18 +169,49 @@
     align-items: center;
     box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
+.uploaded-file-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .remove-file-btn {
-    color: #d94b4b;
+    flex: 0 0 44px;
+    min-height: 44px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #893a32;
+    font-size: 20px;
     cursor: pointer;
     font-weight: bold;
     margin-left: 8px;
+}
+.remove-file-btn:hover { background: #fff4f0; }
+
+.cn-error { color: #922b2b; font-size: 13px; line-height: 1.45; margin-top: 5px; }
+.cn-error:empty { margin: 0; }
+.cn-field [aria-invalid="true"] { border-color: #a83d35; }
+.cn-group-lookup { color: #315d45; font-size: 13px; }
+.cn-group-lookup summary { width: fit-content; cursor: pointer; font-weight: 750; padding: 10px 0; }
+.cn-group-lookup input { margin-bottom: 8px; }
+.cn-draft { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 13px; color: #526759; }
+.cn-draft[hidden] { display: none; }
+.cn-draft button {
+    min-height: 44px;
+    background: transparent;
+    border: 0;
+    color: #315d45;
+    font: inherit;
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
 }
 
 /* Action Row */
 .cn-action-row {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 14px;
     margin-top: 6px;
 }
 
@@ -188,6 +224,8 @@
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
+    margin-left: auto;
+    min-height: 44px;
     box-shadow: 0 4px 12px rgba(244, 196, 48, 0.3);
     transition: all 0.2s;
 }
@@ -346,7 +384,6 @@
 }
 
 /* PRECHECK V4: clean transparent per-report / monthly pricing */
-.pricing-chip{display:inline-block;background:#f7ce36;color:#143d2c;padding:5px 10px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.08em;margin-bottom:14px}
 .billing-options{display:grid;gap:12px;margin:16px 0}
 .billing-choice{display:flex;gap:12px;align-items:center;padding:17px 15px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(255,255,255,.08);cursor:pointer;color:#fff}
 .billing-choice.selected{background:rgba(248,207,58,.17);border-color:#f4c430}
@@ -374,6 +411,11 @@
  .check-new-grid{grid-template-columns:minmax(0,1fr)}
 }
 /* Align the input card naturally rather than stretching its action to the bottom. */
-@media(min-width:1051px){.check-new-grid{align-items:start}.cn-left-card{justify-content:flex-start;min-height:570px}.cn-action-row{margin-top:18px}}
+@media(min-width:1051px){.check-new-grid{align-items:start}.cn-left-card{justify-content:flex-start}.cn-action-row{margin-top:18px}}
+@media(max-width:650px){
+ .btn-analyze-risk{width:100%;padding-inline:12px}
+ .cn-left-card,.cn-right-card{padding:21px}
+ .cn-form-upload-split{gap:20px}
+}
 .cost-fields input{width:100%;min-width:0;box-sizing:border-box;display:block;margin-top:7px;border:1px solid #cbdccf;border-radius:9px;padding:10px 12px;font-size:15px;color:#0b3d25;background:#f9fbf8}
 .cost-fields input:focus{outline:2px solid #288158;outline-offset:1px}

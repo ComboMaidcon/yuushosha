@@ -1,108 +1,219 @@
-// Trợ lý PRECHECK (demo): trả lời theo dữ liệu FDA và thư viện mã lỗi có sẵn, không phải mô hình AI sinh văn bản.
-(function () {
-    const E = window.PCE, D = window.PC_DATA;
-    if (!E || !D) return;
-    const nz = E.norm, C = E.C;
-    const SYN = [['di ung', '3300'], ['allergen', '3300'], ['nutrition', '482'], ['dinh duong', '482'], ['tieng anh', '324'], ['khoi luong tinh', '321'], ['thuoc bao ve', '241'], ['du luong thuoc', '241'],
-        ['thuoc thu y', '2860'], ['nitrofuran', '3220'], ['histamine', '2360'], ['salmonella', '9'], ['listeria', '295'], ['fsvp', '3886'], ['tap chat', '249'], ['filthy', '249'], ['pham mau', '11'], ['phu gia', '238']];
-    const STOP = new Set('va hay bi la gi cho cua co khong nao nhung cac toi minh can vi loi tu choi san pham hang xuat khau my hoa ky khi voi the nao thuong gap hoi ve cho'.split(' '));
-    const TXT = {
-        label: 'Rà soát nhãn theo bảng mã lỗi:\n• Thông tin bắt buộc có tiếng Anh, chữ nổi bật, đủ lớn\n• Khối lượng tịnh ghi đơn vị Mỹ (oz, lb, fl oz) và đơn vị mét\n• Bảng Nutrition Facts đúng chuẩn FDA, hoặc đã xác nhận được miễn trừ\n• Khai báo phẩm màu, chất bảo quản và chức năng\n• Khai báo đủ chất gây dị ứng chính\nMuốn biết chi tiết từng mục, hãy hỏi "giải thích mã 482" hoặc "mã 324".',
-        allergen: 'Mỹ có 9 nhóm chất gây dị ứng chính: sữa, trứng, cá, giáp xác, hạt cây, đậu phộng, lúa mì, đậu nành và mè (mè bắt buộc từ 01/01/2023). Nhãn phải khai báo rõ, và cần đánh giá nguy cơ nhiễm chéo nếu dùng chung dây chuyền. EU có danh sách 14 nhóm riêng, nhưng bản demo chưa hỗ trợ EU.',
-        facility: 'Cơ sở nước ngoài sản xuất, đóng gói hoặc lưu giữ thực phẩm xuất sang Mỹ cần đăng ký với FDA (FFR) và chỉ định đại diện tại Mỹ (US Agent). Đăng ký gia hạn hai năm một lần vào năm chẵn. Ngoài ra cần khai báo trước (Prior Notice) khi hàng đến cảng Mỹ. Hãy xác nhận thời hạn cụ thể với chuyên gia.',
-        fsvp: 'FSVP là chương trình xác minh nhà cung cấp nước ngoài, nghĩa vụ chính thuộc nhà nhập khẩu Mỹ. Bạn nên chuẩn bị sẵn hồ sơ: kế hoạch an toàn thực phẩm, kết quả kiểm nghiệm, chứng nhận cơ sở. Thủy sản theo HACCP có quy định riêng, hãy xác nhận với nhà nhập khẩu.',
-        fce: 'Với thực phẩm đóng kín, nếu pH > 4,6 và aw > 0,85 thì thường thuộc nhóm đồ hộp axit thấp, cần đăng ký cơ sở (FCE) và nộp quy trình xử lý nhiệt (SID) cho từng sản phẩm trước khi xuất. Hãy xác nhận với chuyên gia.',
-        source: 'Dữ liệu là FDA Import Refusal Report (lô hàng thực phẩm bị FDA từ chối, ' + E.meta.period + ') cùng bảng mã lý do của FDA. Import Alerts, RASFF và EU chưa được tích hợp.',
-        update: 'FDA công bố báo cáo từ chối nhập khẩu theo kỳ và cập nhật hàng tháng. Bản demo dùng bộ dữ liệu nhóm lưu đến ' + E.meta.updated + ' và chưa tự cập nhật.',
-        eu: 'Chưa hỗ trợ. Bản demo chỉ có thị trường Hoa Kỳ (FDA). EU nằm trong kế hoạch phát triển.',
-        price: 'Giá dự kiến: 199.000đ/báo cáo theo 1 sản phẩm × 1 thị trường, hoặc 499.000đ/tháng cho tối đa 3 báo cáo (166.333đ/báo cáo nếu dùng đủ). Một báo cáo bao gồm nhãn, COA, giấy phép và nhà máy nếu phù hợp, không cộng phí theo mục. Các giai đoạn giảm giá chưa áp dụng. Demo không thanh toán thật.',
-        score: 'Điểm rà soát = tín hiệu lịch sử (tối đa 70) + mức thiếu hồ sơ (tối đa 30). Đây không phải xác suất bị từ chối, vì dữ liệu chỉ có các lô đã bị từ chối, không có các lô nhập thành công.',
-        expert: 'Bản demo chưa kết nối chuyên gia. Hãy gửi báo cáo và các mục chưa đạt cho người phụ trách QA hoặc tư vấn pháp lý của bạn.',
-        help: 'Mình có thể giúp:\n• Tra lỗi hay gặp của một sản phẩm (ví dụ "tôm", "hạt điều")\n• Giải thích mã lỗi FDA (ví dụ "mã 3300", "salmonella")\n• Rà soát nhãn, dị ứng, đăng ký cơ sở, FSVP, FCE/SID\n• Nguồn dữ liệu và cách tính điểm'
+(() => {
+    const library = import('./expert-knowledge.js');
+    const prompts = [
+        'Tôm đông lạnh có cần FSVP không?',
+        'Hạt điều rang cần ghi nhãn gì?',
+        'Prior Notice và ISF khác nhau thế nào?'
+    ];
+    const make = (tag, attributes = {}, ...children) => {
+        const node = document.createElement(tag);
+        for (const [name, value] of Object.entries(attributes)) node.setAttribute(name, value);
+        node.append(...children);
+        return node;
     };
-    function explain(id) {
-        const c = C(id);
-        if (!c.t) return { text: 'Mã ' + c.c + ' chưa có diễn giải tiếng Việt trong thư viện.' };
-        return { text: c.c + ': ' + c.t + '.\n' + c.e + '\n\nNên làm:\n' + c.a.slice(0, 3).map(a => '• ' + a).join('\n') + '\n\nCăn cứ: ' + c.l + '\n(Nội dung bản nháp, chưa được chuyên gia duyệt.)' };
-    }
-    function findCharge(q) {
-        const n = nz(q), m = n.match(/\b\d{1,4}\b/g) || [];
-        for (const x of m) if (D.C[x] && D.C[x].t) return x;
-        for (const [k, id] of SYN) if (n.includes(k)) return id;
-        for (const id in D.C) { const t = D.C[id].c.split('-')[0].toLowerCase().replace(/\s+/g, ''); if (t.length >= 5 && D.C[id].t && n.replace(/\s+/g, '').includes(t)) return id; }
-        return null;
-    }
-    function findProduct(q) {
-        const ws = q.replace(/[?!.,;:()"]/g, ' ').split(/\s+/).filter(w => w && !STOP.has(nz(w)));
-        for (let k = 3; k >= 1; k--) for (let i = 0; i + k <= ws.length; i++) {
-            const phrase = ws.slice(i, i + k).join(' ');
-            if (nz(phrase).length < 3) continue;
-            const r = E.search(phrase, 1); if (r.length) return r[0];
+
+    const title = make('h2', { id: 'pcChatTitle' }, 'Hỏi PRECHECK');
+    const subtitle = make('p', { class: 'pc-chat-subtitle' }, 'Trợ lý AI về xuất khẩu thực phẩm sang Hoa Kỳ');
+    const closeButton = make('button', { type: 'button', class: 'pc-chat-close', 'aria-label': 'Đóng hộp chat' }, '×');
+    const header = make('header', { class: 'pc-chat-header' }, make('div', {}, title, subtitle), closeButton);
+    const transcript = make('div', { class: 'pc-chat-transcript', role: 'log', 'aria-label': 'Tin nhắn' });
+    const suggestions = make('div', { class: 'pc-chat-suggestions', role: 'group', 'aria-label': 'Câu hỏi gợi ý' });
+    const busy = make('p', { class: 'pc-chat-pending', role: 'status' });
+    const input = make('textarea', { rows: '1', maxlength: '900', 'aria-label': 'Nội dung tin nhắn', placeholder: 'Nhập tin nhắn…' });
+    const send = make('button', { type: 'submit' }, 'Gửi');
+    const form = make('form', { class: 'pc-chat-form' }, input, send);
+    const hint = make('p', { class: 'pc-chat-hint' },
+        'Câu hỏi nghiệp vụ có thể được gửi tới dịch vụ AI. Chỉ nhập mô tả cần thiết, tránh gửi tài liệu mật.');
+    const dialog = make('dialog', { class: 'pc-chat-dialog', id: 'pcChatDialog', 'aria-labelledby': 'pcChatTitle' },
+        header, transcript, suggestions, busy, form, hint);
+    document.body.append(dialog);
+
+    const launchers = [...document.querySelectorAll('[data-precheck-chat]')];
+    let returnFocus;
+    let questions = [];
+    let pending = false;
+
+    transcript.append(showMessage({
+        answer: 'Bạn đang chuẩn bị xuất mặt hàng gì? Cho tôi biết dạng chế biến, bao bì và tuyến vận chuyển để xác định giấy tờ và nguồn cần kiểm tra.'
+    }));
+    suggestions.append(...prompts.map(question => {
+        const button = make('button', { type: 'button' }, question);
+        button.addEventListener('click', () => {
+            input.focus({ preventScroll: true });
+            void ask(question);
+        });
+        return button;
+    }));
+
+    function showMessage({ answer, question, sources, actions, mode: responseMode, checkedOn }) {
+        if (question) return make('p', { class: 'pc-chat-message visitor' }, question);
+        const bubble = make('article', { class: 'pc-chat-message assistant' }, make('p', {}, answer));
+        if (sources?.length) {
+            const refs = make('details', { class: 'pc-chat-sources' }, make('summary', {}, 'Nguồn tham chiếu (' + sources.length + ')'));
+            const list = make('ul');
+            for (const source of sources) {
+                if (typeof source.url !== 'string' || !source.url.startsWith('https://') || !source.title) continue;
+                const link = make('a', { href: source.url, target: '_blank', rel: 'noopener noreferrer' }, source.title);
+                list.append(make('li', {}, link));
+            }
+            refs.append(list);
+            bubble.append(refs);
         }
-        return null;
-    }
-    function productAnswer(p) {
-        const vn = p[8].length > 0, top = (vn ? p[8] : p[7]).slice(0, 3);
-        const lines = top.map(([id, pc], i) => (i + 1) + '. ' + (C(id).t || C(id).c) + ' (' + pc + '%)').join('\n');
-        return { text: 'Nhóm sản phẩm FDA gần nhất: ' + E.displayName(p) + (p[6] === 'Bản nháp' ? '' : ' (tên cần xác nhận)') + '.\nTrong ' + E.meta.period + ': hàng Việt Nam ' + p[5] + ' dòng, toàn cầu ' + p[4] + ' dòng bị từ chối.\nLỗi thường gặp nhất ở ' + (vn ? 'hàng Việt Nam' : 'toàn cầu (hàng Việt Nam quá ít dữ liệu)') + ':\n' + lines + '\n\nTỷ lệ % là phần các dòng bị từ chối của nhóm này có mã lỗi đó, không phải xác suất bị từ chối. Không thấy lỗi nào cũng không có nghĩa là an toàn.', chips: top.map(([id]) => 'Giải thích mã ' + id) };
-    }
-    function answer(q) {
-        const n = nz(q);
-        const id = findCharge(q); if (id) return explain(id);
-        if (/\b(xin chao|chao|hello|hi)\b/.test(n) || n.trim() === '') return { text: 'Xin chào! ' + TXT.help };
-        if (/\bnhan\b|label|artwork/.test(n)) return { text: TXT.label };
-        if (/di ung|allergen/.test(n)) return { text: TXT.allergen };
-        if (/\bffr\b|us agent|dai dien|prior notice|dang ky co so|facility/.test(n)) return { text: TXT.facility };
-        if (/\bph\b|\baw\b|\bfce\b|\bsid\b|do hop/.test(n)) return { text: TXT.fce };
-        if (/\beu\b|chau au|rasff/.test(n)) return { text: TXT.eu };
-        if (/nguon|du lieu nao|dung du lieu/.test(n)) return { text: TXT.source };
-        if (/cap nhat|bao lau/.test(n)) return { text: TXT.update };
-        if (/gia|bao nhieu|chi phi|thanh toan/.test(n)) return { text: TXT.price };
-        if (/diem|score|xac suat|tinh diem/.test(n)) return { text: TXT.score };
-        if (/chuyen gia|tu van|dat lich/.test(n)) return { text: TXT.expert };
-        const p = findProduct(q); if (p) return productAnswer(p);
-        return { text: 'Mình chưa hiểu câu hỏi này. ' + TXT.help };
+        if (responseMode || checkedOn) {
+            const badge = responseMode === 'model' ? 'AI tổng hợp' : 'Tra cứu thư viện';
+            bubble.append(make('small', { class: 'pc-chat-provenance' }, badge + (checkedOn ? ' · Đối chiếu nguồn ' + checkedOn : '')));
+        }
+        if (actions?.length) {
+            const links = make('div', { class: 'pc-chat-actions' });
+            for (const action of actions) links.append(make('a', { href: action.href }, action.label));
+            bubble.append(links);
+        }
+        return bubble;
     }
 
-    // ---- Giao diện ----
-    const el = (t, c, txt) => { const e = document.createElement(t); if (c) e.className = c; if (txt != null) e.textContent = txt; return e; };
-    const panel = el('div', 'pcc-panel'), msgs = el('div', 'pcc-msgs'), chips = el('div', 'pcc-chips'), form = el('form', 'pcc-form'), input = el('input');
-    panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Trợ lý PRECHECK');
-    input.placeholder = 'Nhập câu hỏi…'; input.setAttribute('aria-label', 'Nhập câu hỏi');
-    const head = el('div', 'pcc-head'), close = el('button', 'pcc-x', '×');
-    close.type = 'button'; close.setAttribute('aria-label', 'Đóng'); close.onclick = () => api.close();
-    head.append(el('b', '', 'PRECHECK • Trợ lý quy tắc'), el('small', '', '● Demo offline'), close);
-    const send = el('button', '', 'Gửi'); send.type = 'submit'; form.append(input, send);
-    panel.append(head, msgs, chips, form, el('div', 'pcc-note', 'Trợ lý trả lời theo dữ liệu FDA và thư viện mã lỗi có sẵn. PRECHECK là công cụ hỗ trợ ra quyết định, không thay thế kết luận pháp lý hoặc kết quả kiểm nghiệm.'));
-    document.body.append(panel);
-    function add(who, text) { const m = el('div', 'pcc-m ' + (who === 'me' ? 'pcc-me' : 'pcc-bot'), text); msgs.append(m); msgs.scrollTop = msgs.scrollHeight; }
-    function setChips(list) { chips.replaceChildren(...list.map(t => { const b = el('button', 'pcc-chip', t); b.type = 'button'; b.onclick = () => ask(t); return b; })); }
-    const DEFAULT = ['Báo cáo dùng nguồn nào?', 'Dữ liệu cập nhật bao lâu?', 'Có hỗ trợ hồ sơ EU?', 'Tôm hay bị lỗi gì?', 'Rà soát nhãn cần gì?', 'Giải thích mã 3300'];
-    // Ưu tiên trợ lý AI qua /api/chat (cùng tên miền). Nếu lỗi hoặc chưa cấu hình khóa, quay về bot luật.
-    async function askAI(q) {
+    function updateControls() {
+        send.disabled = pending;
+        for (const button of suggestions.children) button.disabled = pending;
+        busy.textContent = pending ? 'Đang đối chiếu câu hỏi…' : '';
+    }
+
+    function scrollToLatest() {
+        transcript.scrollTop = transcript.scrollHeight;
+    }
+
+    function pushMessage(message) {
+        const bubble = showMessage(message);
+        transcript.append(bubble);
+        if (message.answer && bubble.offsetHeight > transcript.clientHeight * .73) {
+            transcript.scrollTop = bubble.offsetTop - 10;
+        } else {
+            scrollToLatest();
+        }
+    }
+
+    function open(trigger = document.activeElement) {
+        if (!dialog.open) {
+            returnFocus = trigger;
+            dialog.show();
+            for (const launcher of launchers) launcher.setAttribute('aria-expanded', 'true');
+            scrollToLatest();
+        }
+        input.focus({ preventScroll: true });
+    }
+
+    function close() {
+        if (!dialog.open) return;
+        dialog.close();
+        for (const launcher of launchers) launcher.setAttribute('aria-expanded', 'false');
+        returnFocus?.focus({ preventScroll: true });
+    }
+
+    launchers.forEach(launcher => {
+        launcher.hidden = false;
+        launcher.setAttribute('aria-controls', dialog.id);
+        launcher.setAttribute('aria-expanded', 'false');
+        launcher.setAttribute('aria-haspopup', 'dialog');
+        launcher.addEventListener('click', () => open(launcher));
+    });
+    closeButton.addEventListener('click', close);
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && dialog.open && dialog.contains(document.activeElement)) {
+            event.preventDefault();
+            close();
+        }
+    });
+
+    const plain = value => String(value).normalize('NFD').replace(/\p{M}+/gu, '').toLowerCase().replace(/đ/g, 'd');
+    function historicalAnswer(question, resources) {
+        const engine = window.PCE;
+        const data = window.PC_DATA;
+        if (!engine || !data) return null;
+        const normalized = plain(question);
+        const code = normalized.match(/\b(?:ma|code)\s+(?:loi\s+)?(\d{1,5})\b/)?.[1];
+        if (code && Object.hasOwn(data.C, code)) {
+            const charge = engine.C(code);
+            return {
+                answer: 'Mã FDA ' + code + ' · ' + (charge.t || charge.c) + '\n' + (charge.e || charge.o || '') +
+                    '\n\nMã này mô tả lý do trong dữ liệu lịch sử. Hãy so với thông báo FDA của lô thực tế để xác định phạm vi áp dụng.',
+                sources: resources.getSources(['refusals']),
+                checkedOn: engine.meta.updated, mode: 'library'
+            };
+        }
+        const product = normalized.match(/^(.+?)\s+(?:hay|thuong|da)\s+bi\s+(?:loi|tu choi)/)?.[1];
+        const match = product && engine.search(product, 1)[0];
+        if (!match) return null;
+        const signals = match[8].length ? match[8] : match[7];
+        const observed = signals.slice(0, 3).map(([id, percent]) => '• ' + (engine.C(id).t || engine.C(id).c) + ' · ' + percent + '%');
+        if (!observed.length) return null;
+        return {
+            answer: 'Nhóm tham khảo: ' + engine.displayName(match) + '\n' + observed.join('\n') +
+                '\n\nTỷ lệ tính trong tập dòng đã bị FDA từ chối của nhóm ' + (match[8].length ? 'Việt Nam' : 'toàn cầu') + '.',
+            sources: resources.getSources(['refusals']),
+            checkedOn: engine.meta.updated, mode: 'library'
+        };
+    }
+
+    async function expertAnswer(question, history) {
+        const resources = await library;
+        const historical = historicalAnswer(question, resources);
+        if (historical) return historical;
+
+        if (location.protocol === 'http:' || location.protocol === 'https:') {
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question, history }),
+                    signal: AbortSignal.timeout(11000)
+                });
+                const result = response.ok && await response.json();
+                if (['model', 'library'].includes(result?.mode) && typeof result.answer === 'string' && result.answer.trim()) {
+                    return result;
+                }
+            } catch {
+                // Offline and static previews use the same verified notes.
+            }
+        }
+
+        const hits = resources.matchTopics(question, history);
+        return { mode: 'library', checkedOn: resources.checkedOn, ...resources.localAnswer(question, hits) };
+    }
+
+    async function ask(text) {
+        const question = String(text).trim().slice(0, 900);
+        if (!question || pending) return;
+        pushMessage({ question });
+
+        const history = questions;
+        questions = [...questions, question].slice(-3);
+        pending = true;
+        updateControls();
         try {
-            const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 15000);
-            const res = await fetch('/api/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: q }), signal: ctrl.signal });
-            clearTimeout(t);
-            if (!res.ok) return null;
-            const d = await res.json();
-            if (d.mode !== 'model' || !d.answer) return null;
-            const src = [...new Set((d.sources || []).map(s => s.source))].slice(0, 3);
-            return d.answer + (src.length ? '\n\nNguồn tham khảo: ' + src.join('; ') : '');
-        } catch (e) { return null; }
+            pushMessage(await expertAnswer(question, history));
+        } catch {
+            pushMessage({
+                answer: 'Chưa tải được thư viện hướng dẫn. Bạn có thể mở nguồn trong thư viện quy định và thử lại câu hỏi.',
+                actions: [{ label: 'Mở thư viện quy định', href: 'dashboard.html#regulations' }]
+            });
+        } finally {
+            pending = false;
+            updateControls();
+        }
     }
-    async function ask(q) {
-        q = q.trim(); if (!q) return;
-        add('me', q);
-        const ai = await askAI(q);
-        if (ai) { add('bot', ai); setChips(DEFAULT); return; }
-        const r = answer(q); add('bot', r.text); setChips((r.chips || []).concat(DEFAULT).slice(0, 6));
-    }
-    form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); input.value = ''; });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') api.close(); });
-    add('bot', 'Xin chào! Mình là trợ lý PRECHECK. ' + TXT.help); setChips(DEFAULT);
-    const api = { open() { panel.classList.add('open'); input.focus(); }, close() { panel.classList.remove('open'); }, ask };
-    window.PCChat = api;
-    const existing = document.getElementById('chatBtn');
-    if (!existing) { const f = el('button', 'pcc-fab', 'Hỏi PRECHECK'); f.type = 'button'; f.onclick = () => (panel.classList.contains('open') ? api.close() : api.open()); document.body.append(f); }
+
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+        if (pending || !input.value.trim()) return;
+        const question = input.value;
+        input.value = '';
+        void ask(question);
+        input.focus();
+    });
+    input.addEventListener('keydown', event => {
+        if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+            event.preventDefault();
+            form.requestSubmit();
+        }
+    });
+    window.PCChat = { open, close, ask };
 })();

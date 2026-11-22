@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRECHECK - Dashboard</title>
+    <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="overview.css">
     <link rel="stylesheet" href="check-new.css">
@@ -11,138 +12,112 @@
     <link rel="stylesheet" href="chatbot.css">
 </head>
 <body>
+    <a class="dash-skip" href="#dashboard-content">Đến nội dung chính</a>
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <a href="index.html" class="sidebar-logo">PRECHECK</a>
-            <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" data-tab="overview" data-menu="Tổng quan">Tổng quan</a>
-                <a href="#" class="nav-item" data-tab="check-new" data-menu="Kiểm tra mới">Kiểm tra mới</a>
-                <a href="#" class="nav-item" data-tab="my-reports" data-menu="Báo cáo của tôi">Báo cáo của tôi</a>
-                <a href="#" class="nav-item" data-tab="risk-alert" data-menu="Risk Alert">Risk Alert</a>
-                <a href="#" class="nav-item" data-tab="smart-checklist" data-menu="Smart Checklist">Smart Checklist</a>
-                <a href="#" class="nav-item" data-tab="compliance" data-menu="Compliance Tracker">Compliance Tracker</a>
-                <a href="#" class="nav-item" data-tab="cost" data-menu="Ước tính chi phí">Ước tính chi phí</a>
-                <a href="#" class="nav-item" data-tab="regulations" data-menu="Thư viện quy định">Thư viện quy định</a>
-                <a href="#" class="nav-item" data-tab="services" data-menu="Gói dịch vụ">Gói dịch vụ</a>
-                <a href="#" class="nav-item" data-tab="support" data-menu="Hỗ trợ">Hỗ trợ</a>
+            <div class="sidebar-heading">
+                <a href="index.html" class="sidebar-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.8 3 8.5 7.5 9.8 4.5-1.3 7.5-5 7.5-9.8V6L12 3Z"/><path d="m8.8 12 2.1 2.1 4.6-4.6"/></svg>
+                    PRECHECK
+                </a>
+                <button class="dash-menu" id="dashMenu" type="button" aria-controls="dashNav" aria-expanded="false" hidden>Danh mục</button>
+            </div>
+            <nav class="sidebar-nav" id="dashNav" aria-label="Điều hướng dashboard">
+                <div class="dash-nav-group">
+                    <p>Hồ sơ xuất khẩu</p>
+                    <a href="#overview" class="nav-item active" data-tab="overview" data-menu="Tổng quan" aria-current="page">Tổng quan</a>
+                    <a href="#check-new" class="nav-item" data-tab="check-new" data-menu="Kiểm tra mới">Kiểm tra mới</a>
+                    <a href="#my-reports" class="nav-item" data-tab="my-reports" data-menu="Báo cáo của tôi">Báo cáo của tôi</a>
+                </div>
+                <div class="dash-nav-group">
+                    <p>Công cụ</p>
+                    <a href="#risk-alert" class="nav-item" data-tab="risk-alert" data-menu="Cảnh báo minh họa">Cảnh báo minh họa</a>
+                    <a href="#smart-checklist" class="nav-item" data-tab="smart-checklist" data-menu="Checklist khắc phục">Checklist khắc phục</a>
+                    <a href="#compliance" class="nav-item" data-tab="compliance" data-menu="Theo dõi tuân thủ">Theo dõi tuân thủ</a>
+                    <a href="#cost" class="nav-item" data-tab="cost" data-menu="Ước tính chi phí">Ước tính chi phí</a>
+                </div>
+                <div class="dash-nav-group">
+                    <p>Tài nguyên</p>
+                    <a href="#regulations" class="nav-item" data-tab="regulations" data-menu="Thư viện quy định">Thư viện quy định</a>
+                    <a href="#services" class="nav-item" data-tab="services" data-menu="Gói dịch vụ">Gói dịch vụ</a>
+                    <a href="#support" class="nav-item" data-tab="support" data-menu="Hướng dẫn sử dụng">Hướng dẫn sử dụng</a>
+                </div>
             </nav>
+            <span class="sidebar-credit">Dự án Yuushousha</span>
         </aside>
 
         <!-- Main Workspace -->
-        <main class="dashboard-main">
+        <main class="dashboard-main" id="dashboard-content" tabindex="-1">
             <!-- Top Header -->
             <header class="dash-header">
                 <div class="dash-title-group" id="dashTitleGroup">
                     <h1>Dashboard Tổng quan</h1>
                     <p>Bản demo sinh viên · lưu dữ liệu trong trình duyệt, không gửi đến máy chủ</p>
                 </div>
-                <div id="userAuthArea" style="display: flex; align-items: center; gap: 12px;">
-                    <button class="btn-dash-login" id="dashLoginBtn">Đăng nhập</button>
+                <div class="dash-tools">
+                    <button class="dash-assistant" type="button" data-precheck-chat hidden>Hỏi PRECHECK</button>
+                    <div id="userAuthArea" class="dash-account">
+                        <button class="btn-dash-login" id="dashLoginBtn" type="button">Đăng nhập</button>
+                    </div>
                 </div>
             </header>
 
-            <!-- TAB 1: OVERVIEW (Tổng quan) -->
-            <div class="tab-pane active" id="tab-overview">
-                <!-- Top 4 Stats Cards -->
-                <div class="overview-stats-grid">
-                    <div class="ov-card">
-                        <div class="ov-number" id="ovReports">24</div>
-                        <div class="ov-sub" id="ovReportsSub">Báo cáo đã tạo · minh họa</div>
+            <section class="tab-pane active" id="tab-overview">
+                <section class="dash-overview-hero" aria-labelledby="dashOverviewTitle">
+                    <div>
+                        <h2 id="dashOverviewTitle">Rà soát trước khi gửi hàng</h2>
+                        <p>Kiểm tra hồ sơ thực phẩm sang Hoa Kỳ, xem căn cứ FDA và biết việc cần làm tiếp theo.</p>
+                        <div class="dash-actions">
+                            <a class="dash-primary" href="#check-new">Tạo kiểm tra mới</a>
+                            <button class="dash-secondary" id="previewSample" type="button">Mở hồ sơ mẫu</button>
+                        </div>
                     </div>
-                    <div class="ov-card">
-                        <div class="ov-number">3</div>
-                        <div class="ov-sub">Tình huống cảnh báo minh họa · không phải tin mới</div>
-                    </div>
-                    <div class="ov-card">
-                        <div class="ov-number highlight-red" id="ovScore">72/100</div>
-                        <div class="ov-sub" id="ovScoreSub">Chỉ số ưu tiên rà soát · minh họa</div>
-                    </div>
-                    <div class="ov-card">
-                        <div class="ov-number" id="ovCheck">68%</div>
-                        <div class="ov-sub" id="ovCheckSub">Checklist hoàn thành · minh họa</div>
-                    </div>
-                </div>
-
-                <!-- Middle Section: Chart & Products Deadline -->
+                    <ol class="dash-overview-steps" aria-label="Quy trình rà soát">
+                        <li><span>1</span> Nhập hồ sơ</li>
+                        <li><span>2</span> Đối chiếu dữ liệu</li>
+                        <li><span>3</span> Xem điểm và chi phí</li>
+                        <li><span>4</span> Lập checklist</li>
+                    </ol>
+                </section>
+                <dl class="dash-metrics">
+                    <div><dt id="ovReportsSub">Báo cáo đã lưu</dt><dd id="ovReports">0</dd></div>
+                    <div><dt id="ovScoreSub">Chỉ số rà soát trung bình</dt><dd id="ovScore">—</dd></div>
+                    <div><dt id="ovCheckSub">Tiến độ checklist</dt><dd id="ovCheck">—</dd></div>
+                </dl>
                 <div class="overview-content-grid">
-                    <!-- Left: Chart -->
-                    <div class="chart-card">
-                        <h3>Chỉ số ưu tiên rà soát theo thời gian</h3>
-                        <p class="demo-cap" id="chartCap">Biểu đồ minh họa, không phải xác suất từ chối hay kết luận đạt chất lượng.</p>
-                        <div class="chart-container" id="riskChart">
-                            <svg viewBox="0 0 600 240" class="risk-svg-chart">
-                                <line x1="40" y1="30" x2="580" y2="30" stroke="#e4ede2" stroke-width="1" />
-                                <line x1="40" y1="80" x2="580" y2="80" stroke="#e4ede2" stroke-width="1" />
-                                <line x1="40" y1="130" x2="580" y2="130" stroke="#e4ede2" stroke-width="1" />
-                                <line x1="40" y1="180" x2="580" y2="180" stroke="#e4ede2" stroke-width="1" />
-                                <text x="20" y="34" font-size="12" fill="#7a9082">80</text>
-                                <text x="20" y="84" font-size="12" fill="#7a9082">60</text>
-                                <text x="20" y="134" font-size="12" fill="#7a9082">40</text>
-                                <text x="20" y="184" font-size="12" fill="#7a9082">20</text>
-                                <text x="25" y="224" font-size="12" fill="#7a9082">0</text>
-                                <line x1="40" y1="210" x2="580" y2="210" stroke="#c0d4c8" stroke-width="1.5" />
-                                <text x="90" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T1</text>
-                                <text x="188" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T2</text>
-                                <text x="286" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T3</text>
-                                <text x="384" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T4</text>
-                                <text x="482" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T5</text>
-                                <text x="555" y="232" font-size="12" fill="#7a9082" text-anchor="middle">T6</text>
-                                <polyline fill="none" stroke="#0b3d25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-                                    points="90,140 188,128 286,108 384,90 482,102 555,90" />
-                                <circle cx="90" cy="140" r="4.5" fill="#0b3d25" />
-                                <circle cx="188" cy="128" r="4.5" fill="#0b3d25" />
-                                <circle cx="286" cy="108" r="4.5" fill="#0b3d25" />
-                                <circle cx="384" cy="90" r="4.5" fill="#0b3d25" />
-                                <circle cx="482" cy="102" r="4.5" fill="#0b3d25" />
-                                <circle cx="555" cy="90" r="4.5" fill="#0b3d25" />
-                            </svg>
+                    <section class="dash-overview-panel" aria-labelledby="recentTitle">
+                        <div class="dash-panel-heading">
+                            <h2 id="recentTitle">Hồ sơ gần đây</h2>
+                            <a href="#my-reports">Xem tất cả</a>
                         </div>
-                    </div>
-
-                    <!-- Right: Products & Deadline -->
-                    <div class="products-deadline-card">
-                        <h3>Sản phẩm & hạn xử lý</h3>
-                        <div class="prod-rows" id="prodRows">
-                            <div class="prod-item">
-                                <span class="prod-name">Tôm đông lạnh · Hoa Kỳ</span>
-                                <span class="badge-mini badge-high">CAO</span>
-                            </div>
-                            <div class="prod-item">
-                                <span class="prod-name">Cá ngừ đóng hộp · EU</span>
-                                <span class="badge-mini badge-med">TRUNG BÌNH</span>
-                            </div>
-                            <div class="prod-item">
-                                <span class="prod-name">Xoài sấy · EU</span>
-                                <span class="badge-mini badge-low">THẤP</span>
-                            </div>
-                        </div>
-                        <div class="deadline-divider"></div>
-                        <div class="deadline-rows" id="deadlineRows">
-                            <div class="deadline-item">
-                                <span class="deadline-date">28/06</span>
-                                <span class="deadline-text">Rà soát nhãn</span>
-                            </div>
-                            <div class="deadline-item">
-                                <span class="deadline-date">30/06</span>
-                                <span class="deadline-text">Hoàn tất Prior Notice</span>
-                            </div>
-                        </div>
-                    </div>
+                        <div id="prodRows"></div>
+                    </section>
+                    <section class="dash-overview-panel" aria-labelledby="dashPeriodTitle">
+                        <h2 id="dashPeriodTitle">Nguồn và phạm vi sàng lọc</h2>
+                        <p>FDA Import Refusals · tập dữ liệu thực phẩm đã chuẩn hóa.</p>
+                        <p id="overviewPeriod"></p>
+                        <a href="#regulations">Mở thư viện quy định</a>
+                    </section>
                 </div>
-            </div>
+                <section class="dash-overview-panel dash-trend" id="riskTrend" aria-labelledby="riskTrendTitle" hidden>
+                    <h2 id="riskTrendTitle">Điểm qua các lần rà soát</h2>
+                    <p class="demo-cap" id="chartCap"></p>
+                    <div class="chart-container" id="riskChart"></div>
+                </section>
+            </section>
 
             <!-- TAB 2: KIỂM TRA MỚI (NEW CHECK - INPUT) -->
             <div class="tab-pane" id="tab-check-new" style="display: none;">
                 <!-- Stepper Progress Bar -->
                 <div class="stepper-wrapper">
-                    <div class="step-pill active" id="step-pill-1">1 &nbsp; INPUT</div>
+                    <div class="step-pill active" id="step-pill-1" aria-current="step">1 &nbsp; Nhập hồ sơ</div>
                     <div class="step-line"></div>
-                    <div class="step-pill" id="step-pill-2">2 &nbsp; DATA MATCHING</div>
+                    <div class="step-pill" id="step-pill-2">2 &nbsp; Đối chiếu dữ liệu</div>
                     <div class="step-line"></div>
-                    <div class="step-pill" id="step-pill-3">3 &nbsp; RISK SCORE</div>
+                    <div class="step-pill" id="step-pill-3">3 &nbsp; Xem điểm và chi phí</div>
                     <div class="step-line"></div>
-                    <div class="step-pill" id="step-pill-4">4 &nbsp; ACTION GUIDE</div>
+                    <div class="step-pill" id="step-pill-4">4 &nbsp; Lập checklist</div>
                 </div>
 
                 <!-- Two Column Layout -->
@@ -153,49 +128,59 @@
                             <!-- Form Inputs -->
                             <div class="cn-form-col">
                                 <div class="cn-field">
-                                    <label>Tên sản phẩm</label>
-                                    <input type="text" id="cnProductName" placeholder="VD: Tôm sú đông lạnh IQF">
+                                    <label for="cnProductName">Tên sản phẩm</label>
+                                    <input type="text" id="cnProductName" required maxlength="160" aria-describedby="cnProductNameError fdaSuggest" placeholder="VD: Tôm sú đông lạnh IQF">
+                                    <p class="cn-error" id="cnProductNameError" hidden>Nhập tên sản phẩm.</p>
+                                    <details class="cn-group-lookup" id="fdaLookup" hidden>
+                                        <summary>Tìm nhóm FDA bằng từ khóa</summary>
+                                        <input type="search" id="cnFDAKeyword" maxlength="60" placeholder="VD: tôm, nước mắm" aria-label="Từ khóa nhóm FDA" aria-describedby="fdaSuggest">
+                                    </details>
                                     <div class="fda-suggest" id="fdaSuggest" aria-live="polite"></div>
                                 </div>
                                 <div class="cn-field">
-                                    <label>Thành phần (nếu có)</label>
-                                    <input type="text" id="cnIngredients" placeholder="VD: Tôm sú (98%), muối, chất ổn định E451">
+                                    <label for="cnIngredients">Thành phần (nếu có)</label>
+                                    <input type="text" id="cnIngredients" maxlength="500" placeholder="VD: Tôm sú (98%), muối">
                                 </div>
                                 <div class="cn-field">
-                                    <label>Mã HS (nếu có)</label>
-                                    <input type="text" id="cnHsCode" placeholder="VD: 0306.17.11">
+                                    <label for="cnHsCode">Mã HS (nếu có)</label>
+                                    <input type="text" id="cnHsCode" maxlength="24" placeholder="VD: 0306.17.11">
                                 </div>
                                 <div class="cn-field">
-                                    <label>Thị trường: Hoa Kỳ / EU</label>
-                                    <select id="cnMarket">
+                                    <label for="cnMarket">Thị trường</label>
+                                    <select id="cnMarket" required aria-describedby="cnMarketError">
                                         <option value="" disabled selected>Chọn thị trường xuất khẩu</option>
                                         <option value="Hoa Kỳ (FDA)">Hoa Kỳ (FDA)</option>
                                         <option value="Liên minh Châu Âu (EU / RASFF)" disabled>Liên minh Châu Âu (sắp có)</option>
                                         <option value="Cả hai (Hoa Kỳ & EU)" disabled>Cả hai (sắp có)</option>
                                     </select>
+                                    <p class="cn-error" id="cnMarketError" hidden>Chọn thị trường xuất khẩu.</p>
                                 </div>
                                 <div class="cn-field">
-                                    <label>Nhà máy / cơ sở</label>
-                                    <input type="text" id="cnFactory" placeholder="VD: Nhà máy Chế biến Thủy sản Hải Nam">
+                                    <label for="cnFactory">Nhà máy / cơ sở</label>
+                                    <input type="text" id="cnFactory" required maxlength="160" aria-describedby="cnFactoryError" placeholder="VD: Cơ sở chế biến Hải Nam">
+                                    <p class="cn-error" id="cnFactoryError" hidden>Nhập tên nhà máy hoặc cơ sở.</p>
                                 </div>
                             </div>
 
                             <!-- File Upload Dropzone -->
                             <div class="cn-upload-col">
                                 <div class="upload-dropzone" id="uploadDropzone">
-                                    <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx" style="display: none;">
-                                    <div class="dropzone-content" id="dropzoneContent">
-                                        <p class="dz-title">Tải hồ sơ</p>
-                                        <p class="dz-sub">Có thể bổ sung nhãn / COA / chứng từ sau</p>
-                                        <p class="dz-hint">Kéo thả hoặc chọn tệp (không bắt buộc)</p>
-                                    </div>
+                                    <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx" hidden>
+                                    <p class="dz-title">Hồ sơ đính kèm (tùy chọn)</p>
+                                    <p class="dz-hint" id="fileHelp">Kéo thả nhãn, COA hoặc chứng từ. Tối đa 8 tệp, mỗi tệp 12 MB. Bản demo chỉ ghi nhận tên tệp.</p>
+                                    <button type="button" id="pickFiles" class="cn-file-picker" aria-describedby="fileHelp">Chọn tệp</button>
                                     <ul class="uploaded-file-list" id="uploadedFileList"></ul>
+                                    <p class="cn-error" id="fileFeedback" role="status"></p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Action Button -->
                         <div class="cn-action-row">
+                            <div class="cn-draft" id="draftTools" hidden>
+                                <p id="draftNote" role="status"></p>
+                                <button type="button" id="clearDraft">Xóa bản nháp</button>
+                            </div>
                             <button type="button" class="btn-analyze-risk" id="btnAnalyzeRisk">Phân tích rủi ro</button>
                         </div>
                     </div>
@@ -203,7 +188,6 @@
                     <!-- Inclusive scope + new subscription/report pricing -->
                     <div class="cn-right-card">
                         <div>
-                            <div class="pricing-chip">GIÁ THỬ NGHIỆM · V3</div>
                             <h3 class="cn-right-title">Chọn hình thức sử dụng</h3>
                             <p class="cn-right-desc" id="selectionStatusNote">Một báo cáo kiểm tra tất cả nội dung phù hợp, không tính tiền từng hạng mục.</p>
                             <div class="billing-options" id="billingOptions">
@@ -245,43 +229,43 @@
                 <div class="filter-bar">
                     <div class="filter-group">
                         <div class="filter-select-wrap">
-                            <select id="filterMarket" class="filter-pill">
-                                <option value="all">Thị trường ▾</option>
+                            <select id="filterMarket" class="filter-pill" aria-label="Thị trường">
+                                <option value="all">Mọi thị trường</option>
                                 <option value="FDA">Hoa Kỳ (FDA)</option>
                                 <option value="RASFF">Châu Âu (RASFF)</option>
                             </select>
                         </div>
                         <div class="filter-select-wrap">
-                            <select id="filterCategory" class="filter-pill">
-                                <option value="all">Nhóm hàng ▾</option>
+                            <select id="filterCategory" class="filter-pill" aria-label="Nhóm hàng">
+                                <option value="all">Mọi nhóm hàng</option>
                                 <option value="thuy-san">Thủy sản đông lạnh</option>
                                 <option value="hat-dieu">Hạt điều chế biến</option>
                                 <option value="trai-cay">Trái cây sấy</option>
                             </select>
                         </div>
                         <div class="filter-select-wrap">
-                            <select id="filterSeverity" class="filter-pill">
-                                <option value="all">Mức độ ▾</option>
+                            <select id="filterSeverity" class="filter-pill" aria-label="Mức độ">
+                                <option value="all">Mọi mức độ</option>
                                 <option value="CAO">CAO</option>
                                 <option value="TRUNG BÌNH">TRUNG BÌNH</option>
                                 <option value="THẤP">THẤP</option>
                             </select>
                         </div>
                         <div class="filter-select-wrap">
-                            <select id="filterTime" class="filter-pill">
-                                <option value="all">Thời gian ▾</option>
+                            <select id="filterTime" class="filter-pill" aria-label="Thời gian">
+                                <option value="all">Mọi thời điểm</option>
                                 <option value="2025-06">Tháng 06/2025</option>
-                                <option value="recent">7 ngày gần nhất (demo không có cảnh báo mới)</option>
+                                <option value="recent">7 ngày gần nhất</option>
                             </select>
                         </div>
                     </div>
 
-                    <button class="btn-notify" id="notifyBtn">Đặt thông báo email / Zalo</button>
+                    <a class="btn-notify" href="index.html#ban-tin">Xem bản tin Hoa Kỳ và Việt Nam</a>
                 </div>
 
                 <!-- Alert List -->
                 <div class="alert-list" id="alertList">
-                    <div class="alert-card" data-market="FDA" data-category="thuy-san" data-severity="CAO">
+                    <div class="alert-card" data-market="FDA" data-category="thuy-san" data-severity="CAO" data-date="2025-06-18">
                         <div class="badge-col">
                             <span class="badge badge-high">CAO</span>
                         </div>
@@ -291,7 +275,7 @@
                             <p class="alert-meta">Minh họa · 18/06/2025</p>
                         </div>
                     </div>
-                    <div class="alert-card" data-market="RASFF" data-category="hat-dieu" data-severity="TRUNG BÌNH">
+                    <div class="alert-card" data-market="RASFF" data-category="hat-dieu" data-severity="TRUNG BÌNH" data-date="2025-06-15">
                         <div class="badge-col">
                             <span class="badge badge-medium">TRUNG BÌNH</span>
                         </div>
@@ -301,7 +285,7 @@
                             <p class="alert-meta">Minh họa · 15/06/2025</p>
                         </div>
                     </div>
-                    <div class="alert-card" data-market="FDA" data-category="trai-cay" data-severity="THẤP">
+                    <div class="alert-card" data-market="FDA" data-category="trai-cay" data-severity="THẤP" data-date="2025-06-11">
                         <div class="badge-col">
                             <span class="badge badge-low">THẤP</span>
                         </div>
@@ -312,7 +296,10 @@
                         </div>
                     </div>
                 </div>
-              <p class="demo-cap" id="alertEmpty" style="display:none;padding:14px">Không có cảnh báo minh họa phù hợp với bộ lọc.</p>
+                <div class="alert-empty" id="alertEmpty" hidden>
+                    <p role="status">Không có cảnh báo minh họa phù hợp với bộ lọc.</p>
+                    <button type="button" class="btn-ghost" id="resetAlerts">Đặt lại bộ lọc</button>
+                </div>
             </div>
 
             <div class="tab-pane" id="tab-matching" style="display: none;"></div>
@@ -331,13 +318,13 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal" id="dashModal">
+    <dialog class="dash-dialog" id="dashModal" aria-labelledby="dashModalTitle">
         <div class="modal-content">
-            <span class="close-modal" id="closeDashModal">&times;</span>
+            <button class="close-modal" id="closeDashModal" type="button" aria-label="Đóng" autofocus>&times;</button>
             <h2 id="dashModalTitle">Thông báo</h2>
             <div id="dashModalBody"></div>
         </div>
-    </div>
+    </dialog>
 
     <script src="common.js"></script>
     <script src="data.js"></script>
